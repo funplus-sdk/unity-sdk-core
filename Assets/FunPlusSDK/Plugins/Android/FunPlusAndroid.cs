@@ -8,7 +8,7 @@ using System.Linq;
 using System.Collections;
 using System.Threading;
 
-namespace FunPlusSDK
+namespace FunPlus
 {
 	public class FunPlusAndroid : IWorkerMethodDispacther
 	{

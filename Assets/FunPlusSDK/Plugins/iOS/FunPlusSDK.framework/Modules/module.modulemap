@@ -1,0 +1,10 @@
+framework module FunPlusSDK {
+  umbrella header "FunPlusSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module FunPlusSDK.Swift {
+    header "FunPlusSDK-Swift.h"
+}

@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace FunPlusSDK
+namespace FunPlus
 {
 	public interface IWorkerMethodDispacther
 	{

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace FunPlusSDK
+namespace FunPlus
 {
 	public class FunPlusSDK
 	{
@@ -17,52 +18,48 @@ namespace FunPlusSDK
 
 		private FunPlusSDK() {}
 
-		public static FunPlusSDK getInstance ()
+		public static void Install ()
 		{
 			#if UNITY_IOS || UNITY_ANDROID
-			if(instance == null) {
-				instance = new FunPlusSDK();
-			#if UNITY_IOS
-				nativeSdk = new FunPlusiOS();
-			#elif UNITY_ANDROID
-				nativeSdk = new FunPlusAndroid();
-			#endif
+			if (instance != null)
+			{
+				return;
 			}
-			return instance;
-			#else
-			return null;
-			#endif
-		}
 
-		public void install ()
-		{
+			instance = new FunPlusSDK ();
+
+			#if UNITY_IOS
+			nativeSdk = new FunPlusiOS ();
+			#elif UNITY_ANDROID
+			nativeSdk = new FunPlusAndroid ();
+			#endif
+
 			string appId = FunPlusSDKConfig.Instance.AppId;
 			string appKey = FunPlusSDKConfig.Instance.AppKey;
 			string environment = FunPlusSDKConfig.Instance.Environment;
 
-			#if UNITY_IOS || UNITY_ANDROID
 			nativeSdk.install(appId, appKey, environment);
 			#endif
 		}
 
-		public FunPlusID getFunPlusID()
+		public static FunPlusID GetFunPlusID()
 		{
-			return FunPlusID.getInstance ();
+			return FunPlusID.GetInstance ();
 		}
 			
-		public FunPlusRUM getFunPlusRUM()
+		public static FunPlusRUM GetFunPlusRUM()
 		{
-			return FunPlusRUM.getInstance ();
+			return FunPlusRUM.GetInstance ();
 		}
 
-		public FunPlusData getFunPlusData()
+		public static FunPlusData GetFunPlusData()
 		{
-			return FunPlusData.getInstance ();
+			return FunPlusData.GetInstance ();
 		}
 
-		public FunPlusAdjust getFunPlusAdjust()
+		public static FunPlusAdjust GetFunPlusAdjust()
 		{
-			return FunPlusAdjust.getInstance ();
+			return FunPlusAdjust.GetInstance ();
 		}
 
 		public class FunPlusID
@@ -71,7 +68,7 @@ namespace FunPlusSDK
 
 			private FunPlusID() {}
 
-			public static FunPlusID getInstance()
+			public static FunPlusID GetInstance()
 			{
 				if (instance == null) {
 					instance = new FunPlusID ();
@@ -86,7 +83,7 @@ namespace FunPlusSDK
 
 			private FunPlusRUM() {}
 
-			public static FunPlusRUM getInstance()
+			public static FunPlusRUM GetInstance()
 			{
 				if (instance == null) {
 					instance = new FunPlusRUM ();
@@ -94,40 +91,30 @@ namespace FunPlusSDK
 				return instance;
 			}
 
-			public void traceServiceMonitoring(
-				string serviceName,
-				string httpUrl,
-				string httpStatus,
-				int requestSize,
-				int responseSize,
-				long httpLatency,
-				long requestTs,
-				long responseTs,
-				string requestId,
-				string targetUserId,
-				string gameServerId)
+			public void TraceServiceMonitoring(string serviceName,
+											   string httpUrl,
+											   string httpStatus,
+											   int requestSize,
+											   int responseSize,
+											   long httpLatency,
+											   long requestTs,
+											   long responseTs,
+											   string requestId,
+											   string targetUserId,
+											   string gameServerId)
 			{
 				#if UNITY_IOS || UNITY_ANDROID
-				nativeSdk.traceRUMServiceMonitoring(
-					serviceName,
-					httpUrl,
-					httpStatus,
-					requestSize,
-					responseSize,
-					httpLatency,
-					requestTs,
-					responseTs,
-					requestId,
-					targetUserId,
-					gameServerId
+				nativeSdk.TraceRUMServiceMonitoring(
+					serviceName, httpUrl, httpStatus, requestSize, responseSize, httpLatency, requestTs,
+					responseTs, requestId, targetUserId, gameServerId
 				);
 				#endif
 			}
 
-			public void setExtraProperty (string key, string value)
+			public void SetExtraProperty (string key, string value)
 			{
 				#if UNITY_IOS || UNITY_ANDROID
-				nativeSdk.setRUMExtraProperty(key, value);
+				nativeSdk.SetRUMExtraProperty(key, value);
 				#endif
 			}
 		}
@@ -138,7 +125,7 @@ namespace FunPlusSDK
 
 			private FunPlusData() {}
 
-			public static FunPlusData getInstance()
+			public static FunPlusData GetInstance()
 			{
 				if (instance == null) {
 					instance = new FunPlusData ();
@@ -146,45 +133,35 @@ namespace FunPlusSDK
 				return instance;
 			}
 
-			public void traceCustom(IDictionary dataEvent)
+			public void TraceCustom(Dictionary<string, object> dataEvent)
 			{
 				#if UNITY_IOS || UNITY_ANDROID
-				nativeSdk.traceDataCustom(dataEvent);
+				nativeSdk.TraceDataCustom(dataEvent);
 				#endif
 			}
 
-			public void tracePayment(
-				string productId,
-				string productName,
-				string productType,
-				string transactionId,
-				string paymentProcessor,
-				string amount,
-				string currency,
-				string currencyReceived,
-				string currencyReceivedType,
-				string itemsReceived)
-			{
-				#if UNITY_IOS || UNITY_ANDROID
-				nativeSdk.traceDataPayment(
-					productId,
-					productName,
-					productType,
-					transactionId,
-					paymentProcessor,
-					amount,
-					currency,
-					currencyReceived,
-					currencyReceivedType,
-					itemsReceived
-				);
-				#endif
-			}
+//			public void TracePayment(string amount,
+//				                     string currency,
+//				                     string productId,
+//				                     string productName,
+//				                     string productType,
+//				                     string transactionId,
+//				                     string paymentProcessor,
+//									 string itemsReceived,
+//				                     string currencyReceived)
+//			{
+//				#if UNITY_IOS || UNITY_ANDROID
+//				nativeSdk.TraceDataPayment(
+//					amount, currency, productId, productName, productType, transactionId,
+//					paymentProcessor, itemsReceived, currencyReceived
+//				);
+//				#endif
+//			}
 
-			public void setExtraProperty (string key, string value)
+			public void SetExtraProperty (string key, string value)
 			{
 				#if UNITY_IOS || UNITY_ANDROID
-				nativeSdk.setDataExtraProperty(key, value);
+				nativeSdk.SetDataExtraProperty(key, value);
 				#endif
 			}
 		}
@@ -195,7 +172,7 @@ namespace FunPlusSDK
 
 			private FunPlusAdjust() {}
 
-			public static FunPlusAdjust getInstance()
+			public static FunPlusAdjust GetInstance()
 			{
 				if (instance == null) {
 					instance = new FunPlusAdjust ();

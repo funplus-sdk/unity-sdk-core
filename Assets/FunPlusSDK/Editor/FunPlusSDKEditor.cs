@@ -5,9 +5,6 @@ using UnityEditor;
 [CustomEditor(typeof(FunPlusSDKConfig))]
 public class FunPlusSDKEditor : Editor
 {
-
-	bool showFunPlusSDKConfig = false;
-
 	GUIContent appIdLabel = new GUIContent("App ID [?]:", "FunPlus app ID can be found at:");
 	GUIContent appKeyLabel = new GUIContent("App Key [?]:", "FunPlus app key\n For example, 'xxx'");
 	GUIContent environmentLabel = new GUIContent("SDK Environment [?]:", "SDK running environment\n Can take two possible values: sandbox or production");

@@ -1,4 +1,4 @@
-﻿//#if UNITY_IPHONE
+﻿#if UNITY_IPHONE
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -6,93 +6,97 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using HSMiniJSON;
 
-namespace FunPlusSDK
+namespace FunPlus
 {
 	public class FunPlusiOS
 	{
 		[DllImport ("__Internal")]
-		private static extern void fpInstall (string appId, string appKey, string environment);
+		private static extern void _install (string appId, string appKey, string environment);
 		[DllImport ("__Internal")]
-		private static extern void fpTraceRUMServiceMonitoring (
-			string serviceName,
-			string httpUrl,
-			string httpStatus,
-			int requestSize,
-			int responseSize,
-			long httpLatency,
-			long requestTs,
-			long responseTs,
-			string requestId,
-			string targetUserId,
-			string gameServerId
-		);
+		private static extern void _traceRUMServiceMonitoring (string serviceName,
+															   string httpUrl,
+															   string httpStatus,
+															   int requestSize,
+															   int responseSize,
+															   long httpLatency,
+															   long requestTs,
+															   long responseTs,
+															   string requestId,
+															   string targetUserId,
+															   string gameServerId);
 		[DllImport ("__Internal")]
-		private static extern void fpSetRUMExtraProperty (string key, string value);
+		private static extern void _setRUMExtraProperty (string key, string value);
 		[DllImport ("__Internal")]
-		private static extern void fpTraceDataCustom (string key, string value);
+		private static extern void _traceDataCustom (string jsonEventDict);
+//		[DllImport ("__Internal")]
+//		private static extern void _traceDataPayment (double amount,
+//			                                          string currency,
+//			                                          string productId,
+//			                                          string productName,
+//			                                          string productType,
+//			                                          string transactionId,
+//			                                          string paymentProcessor,
+//			                                          string itemsReceived,
+//			                                          string currencyReceived);
 		[DllImport ("__Internal")]
-		private static extern void fpTraceDataPayment (
-			string productId,
-			string productName,
-			string productType,
-			string transactionId,
-			string paymentProcessor,
-			string amount,
-			string currency,
-			string currencyReceived,
-			string currencyReceivedType,
-			string itemsReceived
-		);
-		[DllImport ("__Internal")]
-		private static extern void fpSetDataExtraProperty (string key, string value);
+		private static extern void _setDataExtraProperty (string key, string value);
+
 
 		public FunPlusiOS () {}
 
 		public void install (string appId, string appKey, string environment) {
-			install(appId, appKey, environment);
+			_install(appId, appKey, environment);
 		}
 
-		public void traceRUMServiceMonitoring(
-			string serviceName,
-			string httpUrl,
-			string httpStatus,
-			int requestSize,
-			int responseSize,
-			long httpLatency,
-			long requestTs,
-			long responseTs,
-			string requestId,
-			string targetUserId,
-			string gameServerId)
+		public void TraceRUMServiceMonitoring(string serviceName,
+											  string httpUrl,
+											  string httpStatus,
+											  int requestSize,
+											  int responseSize,
+											  long httpLatency,
+											  long requestTs,
+											  long responseTs,
+											  string requestId,
+											  string targetUserId,
+											  string gameServerId)
 		{
+			_traceRUMServiceMonitoring (
+				serviceName, httpUrl, httpStatus, requestSize, responseSize, httpLatency,
+				requestTs, responseTs, requestId, targetUserId, gameServerId
+			);
 		}
 
-		public void setRUMExtraProperty (string key, string value)
+		public void SetRUMExtraProperty (string key, string value)
 		{
+			_setRUMExtraProperty (key, value);
 		}
 
-		public void traceDataCustom(IDictionary dataEvent)
+		public void TraceDataCustom(Dictionary<string, object> dataEvent)
 		{
+			_traceDataCustom (Json.Serialize (dataEvent));
 		}
 
-		public void traceDataPayment(
-			string productId,
-			string productName,
-			string productType,
-			string transactionId,
-			string paymentProcessor,
-			string amount,
-			string currency,
-			string currencyReceived,
-			string currencyReceivedType,
-			string itemsReceived)
-		{
-		}
+//		public void TraceDataPayment(double amount,
+//			                         string currency,
+//			                         string productId,
+//			                         string productName,
+//			                         string productType,
+//			                         string transactionId,
+//			                         string paymentProcessor,
+//			                         string itemsReceived,
+//			                         string currencyReceived)
+//		{
+//			_traceDataPayment (
+//				amount, currency, productId, productName, productType, transactionId,
+//				paymentProcessor, itemsReceived, currencyReceived
+//			);
+//		}
 
-		public void setDataExtraProperty (string key, string value)
+		public void SetDataExtraProperty (string key, string value)
 		{
+			_setDataExtraProperty (key, value);
 		}
 	}
 
 }
-//#endif
+#endif
