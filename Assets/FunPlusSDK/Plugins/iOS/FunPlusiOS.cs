@@ -44,7 +44,7 @@ namespace FunPlus
 
 		public FunPlusiOS () {}
 
-		public void install (string appId, string appKey, string environment) {
+		public void Install (string appId, string appKey, string environment) {
 			_install(appId, appKey, environment);
 		}
 

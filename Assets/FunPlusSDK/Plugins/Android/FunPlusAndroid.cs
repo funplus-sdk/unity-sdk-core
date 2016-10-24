@@ -1,4 +1,4 @@
-﻿//#if UNITY_ANDROID
+﻿#if UNITY_ANDROID
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -15,51 +15,48 @@ namespace FunPlus
 		private AndroidJavaClass jc;
 		private AndroidJavaObject currentActivity, application;
 		private AndroidJavaObject sdkBridgeClass;
-		private AndroidJavaClass sdkAPIDelegate;
 
 		public FunPlusAndroid ()
 		{
 			this.jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 			this.currentActivity = jc.GetStatic<AndroidJavaObject>("currentActivity");
 			this.application = currentActivity.Call<AndroidJavaObject>("getApplication");
-			this.sdkAPIDelegate = new AndroidJavaClass("com.funplus.sdk.UnityAPIDelegate");
-			FunPlusWorker.getInstance ().registerClient ("support", this);
+			FunPlusWorker.GetInstance ().RegisterClient ("support", this);
 		}
 
-		public void resolveAndCallApi(string methodIdentifier, string api, object[] args)
+		public void ResolveAndCallApi(string methodIdentifier, string api, object[] args)
 		{
 		}
 
-		void sdkApiCall(string api, params object[] args) {
-			addSdkApiCallToQueue ("sdkApiCallWithArgs", api, args);
+		void SdkApiCall(string api, params object[] args) {
+			AddSdkApiCallToQueue ("SdkApiCallWithArgs", api, args);
 		}
 
-		void sdkApiCall(string api) {
-			addSdkApiCallToQueue ("sdkApiCall", api, null);
+		void SdkApiCall(string api) {
+			AddSdkApiCallToQueue ("SdkApiCall", api, null);
 		}
 
-		void addSdkApiCallToQueue(String methodIdentifier, String api, object[] args) {
-			FunPlusWorker.getInstance ().enqueueApiCall ("support", methodIdentifier, api, args);
+		void AddSdkApiCallToQueue(String methodIdentifier, String api, object[] args) {
+			FunPlusWorker.GetInstance ().EnqueueApiCall ("support", methodIdentifier, api, args);
 		}
 
-		public void install(string appId, string appKey, string environment)
+		public void Install(string appId, string appKey, string environment)
 		{
 		}
 
-		public void traceRUMServiceMonitoring(
-			string serviceName,
-			string httpUrl,
-			string httpStatus,
-			int requestSize,
-			int responseSize,
-			long httpLatency,
-			long requestTs,
-			long responseTs,
-			string requestId,
-			string targetUserId,
-			string gameServerId)
+		public void TraceRUMServiceMonitoring(string serviceName,
+			                                  string httpUrl,
+			                                  string httpStatus,
+			                                  int requestSize,
+			                                  int responseSize,
+			                                  long httpLatency,
+			                                  long requestTs,
+			                                  long responseTs,
+			                                  string requestId,
+			                                  string targetUserId,
+			                                  string gameServerId)
 		{
-			sdkApiCall (
+			SdkApiCall (
 				"traceRUMServiceMonitoring",
 				serviceName,
 				httpUrl,
@@ -74,29 +71,28 @@ namespace FunPlus
 			);
 		}
 
-		public void setRUMExtraProperty (string key, string value)
+		public void SetRUMExtraProperty (string key, string value)
 		{
-			sdkApiCall ("setRUMExtraProperty", key, value);
+			SdkApiCall ("setRUMExtraProperty", key, value);
 		}
 
-		public void traceDataCustom(IDictionary dataEvent)
+		public void TraceDataCustom(IDictionary dataEvent)
 		{
-			sdkApiCall ("traceDataCustom", dataEvent);
+			SdkApiCall ("traceDataCustom", dataEvent);
 		}
 
-		public void traceDataPayment(
-			string productId,
-			string productName,
-			string productType,
-			string transactionId,
-			string paymentProcessor,
-			string amount,
-			string currency,
-			string currencyReceived,
-			string currencyReceivedType,
-			string itemsReceived)
+		public void TraceDataPayment(string productId,
+			                         string productName,
+			                         string productType,
+			                         string transactionId,
+			                         string paymentProcessor,
+			                         string amount,
+			                         string currency,
+			                         string currencyReceived,
+			                         string currencyReceivedType,
+			                         string itemsReceived)
 		{
-			sdkApiCall (
+			SdkApiCall (
 				"traceDataPayment", 
 				productId,
 				productName,
@@ -111,10 +107,10 @@ namespace FunPlus
 			);
 		}
 
-		public void setDataExtraProperty (string key, string value)
+		public void SetDataExtraProperty (string key, string value)
 		{
-			sdkApiCall ("setDataExtraProperty", key, value);
+			SdkApiCall ("setDataExtraProperty", key, value);
 		}
 	}
 }
-//#endif
+#endif

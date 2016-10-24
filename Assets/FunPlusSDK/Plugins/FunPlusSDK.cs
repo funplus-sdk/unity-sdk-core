@@ -38,7 +38,7 @@ namespace FunPlus
 			string appKey = FunPlusSDKConfig.Instance.AppKey;
 			string environment = FunPlusSDKConfig.Instance.Environment;
 
-			nativeSdk.install(appId, appKey, environment);
+			nativeSdk.Install(appId, appKey, environment);
 			#endif
 		}
 
