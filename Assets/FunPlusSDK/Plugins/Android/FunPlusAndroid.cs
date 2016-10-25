@@ -13,19 +13,22 @@ namespace FunPlus
 	public class FunPlusAndroid : IWorkerMethodDispacther
 	{
 		private AndroidJavaClass jc;
-		private AndroidJavaObject currentActivity, application;
-		private AndroidJavaObject sdkBridgeClass;
+		private AndroidJavaClass sdkBridgeClass;
+		private AndroidJavaObject application;
+		private AndroidJavaObject currentActivity;
 
 		public FunPlusAndroid ()
 		{
 			this.jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 			this.currentActivity = jc.GetStatic<AndroidJavaObject>("currentActivity");
 			this.application = currentActivity.Call<AndroidJavaObject>("getApplication");
-			FunPlusWorker.GetInstance ().RegisterClient ("support", this);
+			this.sdkBridgeClass = new AndroidJavaClass ("com.funplus.sdk.UnityBridge");
+			FunPlusWorker.GetInstance ().RegisterClient ("sdk", this);
 		}
 
 		public void ResolveAndCallApi(string methodIdentifier, string api, object[] args)
 		{
+			sdkBridgeClass.CallStatic (api, args);
 		}
 
 		void SdkApiCall(string api, params object[] args) {
@@ -37,11 +40,13 @@ namespace FunPlus
 		}
 
 		void AddSdkApiCallToQueue(String methodIdentifier, String api, object[] args) {
-			FunPlusWorker.GetInstance ().EnqueueApiCall ("support", methodIdentifier, api, args);
+			FunPlusWorker.GetInstance ().EnqueueApiCall ("sdk", methodIdentifier, api, args);
 		}
 
 		public void Install(string appId, string appKey, string environment)
 		{
+			Debug.Log ("***** Installing SDK: " + appId);
+			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
 		}
 
 		public void TraceRUMServiceMonitoring(string serviceName,
@@ -56,60 +61,41 @@ namespace FunPlus
 			                                  string targetUserId,
 			                                  string gameServerId)
 		{
-			SdkApiCall (
-				"traceRUMServiceMonitoring",
-				serviceName,
-				httpUrl,
-				httpStatus,
-				requestSize,
-				responseSize,
-				httpLatency,
-				requestTs,
-				requestId,
-				targetUserId,
-				gameServerId
-			);
+			SdkApiCall ("traceRUMServiceMonitoring", new object[] {
+				serviceName, httpUrl, httpStatus, requestSize, responseSize, httpLatency,
+				requestTs, responseTs, requestId, targetUserId, gameServerId
+			});
 		}
 
 		public void SetRUMExtraProperty (string key, string value)
 		{
-			SdkApiCall ("setRUMExtraProperty", key, value);
+			SdkApiCall ("setRUMExtraProperty", new object[] { key, value });
 		}
 
-		public void TraceDataCustom(IDictionary dataEvent)
+		public void TraceDataCustom(Dictionary<string, object> dataEvent)
 		{
-			SdkApiCall ("traceDataCustom", dataEvent);
+			SdkApiCall ("traceDataCustom", new object[] { Json.Serialize(dataEvent) });
 		}
 
-		public void TraceDataPayment(string productId,
+		public void TraceDataPayment(double amount,
+									 string currency,
+									 string productId,
 			                         string productName,
 			                         string productType,
 			                         string transactionId,
-			                         string paymentProcessor,
-			                         string amount,
-			                         string currency,
-			                         string currencyReceived,
-			                         string currencyReceivedType,
-			                         string itemsReceived)
+									 string paymentProcessor,
+								     string itemsReceived,
+			                         string currencyReceived)
 		{
-			SdkApiCall (
-				"traceDataPayment", 
-				productId,
-				productName,
-				productType,
-				transactionId,
-				paymentProcessor,
-				amount,
-				currency,
-				currencyReceived,
-				currencyReceivedType,
-				itemsReceived
-			);
+			SdkApiCall ("traceDataPayment", new object[] {
+				amount, currency, productId, productName, productType, transactionId,
+				paymentProcessor, itemsReceived, currencyReceived
+			});
 		}
 
 		public void SetDataExtraProperty (string key, string value)
 		{
-			SdkApiCall ("setDataExtraProperty", key, value);
+			SdkApiCall ("setDataExtraProperty", new object[] { key, value });
 		}
 	}
 }
