@@ -60,9 +60,11 @@ public class FunPlusSDKEditor : Editor
 
 		if (exitCode == 1)
 		{
-			EditorUtility.DisplayDialog ("FunPlusSDK", 
+			EditorUtility.DisplayDialog (
+				"FunPlusSDK", 
 				string.Format("AndroidManifest.xml changed or created at {0}/Plugins/Android/ .", Application.dataPath),
-				"OK");
+				"OK"
+			);
 		}
 		else if (exitCode == 0)
 		{
@@ -146,9 +148,9 @@ public class FunPlusSDKEditor : Editor
 			arguments = "--pre-build " + arguments;
 		}
 		#elif UNITY_IOS
-		string sdkConfigFilePath = Path.Combine(Application.dataPath, "FunPlusSDK/Editor/funsdk-default-config.plist");
+		string configFile = Path.Combine(Application.dataPath, "FunPlusSDK/Plugins/iOS/funsdk-default-config.plist");
 		pathToScript = Path.Combine(Application.dataPath, "FunPlusSDK/Editor/FunPlusPostBuildiOS.py");
-		arguments = "\"" + pathToBuiltProject + "\" \"" + sdkConfigFilePath + "\"";
+		arguments = "\"" + pathToBuiltProject + "\" \"" + configFile + "\"";
 		#else
 		return -1;
 		#endif
