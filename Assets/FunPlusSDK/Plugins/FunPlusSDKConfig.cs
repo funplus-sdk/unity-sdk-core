@@ -81,6 +81,15 @@ public class FunPlusSDKConfig : ScriptableObject
 		}
 	}
 
+	public void SaveConfig() {
+		#if !UNITY_WEBPLAYER
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty (Instance);
+		AssetDatabase.SaveAssets ();
+		#endif
+		#endif
+	}
+
 	#if UNITY_EDITOR
 	[MenuItem("FunPlusSDK/Edit Config")]
 	public static void Edit()

@@ -45,7 +45,6 @@ namespace FunPlus
 
 		public void Install(string appId, string appKey, string environment)
 		{
-			Debug.Log ("***** Installing SDK: " + appId);
 			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
 		}
 

@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System;
+using System.IO;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using UnityEditor.Callbacks;
 
 [CustomEditor(typeof(FunPlusSDKConfig))]
 public class FunPlusSDKEditor : Editor
@@ -13,11 +18,10 @@ public class FunPlusSDKEditor : Editor
 
 		FunPlusSDKConfig sdkConfig = FunPlusSDKConfig.Instance;
 
-		EditorGUILayout.LabelField ("Installation Configurations");
-		EditorGUILayout.HelpBox ("1) Add the game object which will respond to SDK callbacks", MessageType.None);
-		EditorGUILayout.HelpBox ("2)", MessageType.None);
-		EditorGUILayout.HelpBox ("3)", MessageType.None);
+		EditorGUILayout.LabelField ("FunPlus SDK Configurations");
+//		EditorGUILayout.HelpBox ("1) Add the game object which will respond to SDK callbacks", MessageType.None);
 
+		EditorGUILayout.Space ();
 		EditorGUILayout.Space ();
 
 		EditorGUILayout.BeginHorizontal ();
@@ -34,5 +38,154 @@ public class FunPlusSDKEditor : Editor
 		EditorGUILayout.LabelField (environmentLabel);
 		sdkConfig.Environment = EditorGUILayout.TextField (sdkConfig.Environment);
 		EditorGUILayout.EndHorizontal ();
+
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+
+		EditorGUILayout.BeginHorizontal();
+		if (GUILayout.Button ("Save Config")) {
+			sdkConfig.SaveConfig();
+		}
+		EditorGUILayout.EndHorizontal();
+	}
+
+	[MenuItem ("FunPlusSDK/Fix AndroidManifest.xml")]
+	static void FixAndroidManifest ()
+	{
+		#if UNITY_ANDROID
+		var exitCode = RunPostBuildScript (preBuild: true);
+
+		if (exitCode == 1)
+		{
+			EditorUtility.DisplayDialog ("FunPlusSDK", 
+				string.Format("AndroidManifest.xml changed or created at {0}/Plugins/Android/ .", Application.dataPath),
+				"OK");
+		}
+		else if (exitCode == 0)
+		{
+			EditorUtility.DisplayDialog ("FunPlusSDK", "AndroidManifest.xml did not needed to be changed.", "OK");
+		}
+		else
+		{
+			EditorUtility.DisplayDialog ("FunPlusSDK", GenerateErrorScriptMessage (exitCode), "OK");
+		}
+		#else
+		EditorUtility.DisplayDialog ("FunPlusSDK", "Option only valid for the Android platform.", "OK");
+		#endif
+	}
+
+	[PostProcessBuild]
+	public static void OnPostprocessBuild (BuildTarget target, string pathToBuiltProject)
+	{
+		var exitCode = RunPostBuildScript (preBuild: false, pathToBuiltProject: pathToBuiltProject);
+
+		if (exitCode == -1)
+		{
+			return;
+		}
+
+		if (exitCode != 0)
+		{
+			var errorMessage = GenerateErrorScriptMessage (exitCode);
+			UnityEngine.Debug.LogError ("FunPlus: " + errorMessage);
+		}
+	}
+
+	static int RunPostBuildScript(bool preBuild, string pathToBuiltProject = "")
+	{
+		string resultContent;
+		string arguments = null;
+		string pathToScript = null;
+
+		string filePath = Path.Combine (Environment.CurrentDirectory, "Assets/FunPlusSDK/Editor/FunPlusPostBuildiOS.py");
+
+		// Check if Unity is running on Windows operating system.
+		// If yes - fix line endings in python scripts.
+		if (Application.platform == RuntimePlatform.WindowsEditor)
+		{
+			UnityEngine.Debug.Log ("Windows platform");
+
+			using (System.IO.StreamReader streamReader = new System.IO.StreamReader (filePath))
+			{
+				string fileContent = streamReader.ReadToEnd ();
+				resultContent = Regex.Replace (fileContent, @"\r\n|\n\r|\n|\r", "\r\n");
+			}
+
+			if (File.Exists (filePath))
+			{
+				File.WriteAllText (filePath, resultContent);
+			}
+		}
+		else
+		{
+			UnityEngine.Debug.Log ("Unix platform");
+
+			using (System.IO.StreamReader streamReader = new System.IO.StreamReader (filePath))
+			{
+				string replaceWith = "\n";
+				string fileContent = streamReader.ReadToEnd ();
+
+				resultContent = fileContent.Replace ("\r\n", replaceWith);
+			}
+
+			if (File.Exists (filePath))
+			{
+				File.WriteAllText (filePath, resultContent);
+			}
+		}
+
+		#if UNITY_ANDROID
+		pathToScript = "/Editor/FunPlusPostBuildAndroid.py";
+		arguments = "\"android\" \"" + Application.dataPath + "\"";
+
+		if (preBuild)
+		{
+			arguments = "--pre-build " + arguments;
+		}
+		#elif UNITY_IOS
+		pathToScript = "/Editor/FunPlusPostBuildiOS.py";
+		arguments = "\"ios\" \"" + pathToBuiltProject + "\"";
+		#else
+		return -1;
+		#endif
+
+		Process proc = new Process ();
+		proc.EnableRaisingEvents = false; 
+		proc.StartInfo.FileName = Application.dataPath + pathToScript;
+		proc.StartInfo.Arguments = arguments;
+		proc.Start ();
+		proc.WaitForExit ();
+
+		return proc.ExitCode;
+	}
+
+	static string GenerateErrorScriptMessage (int exitCode)
+	{
+	#if UNITY_ANDROID
+	if (exitCode == 1)
+	{
+		return "The AndroidManifest.xml file was only changed or created after building the package. " +
+			"PLease build again the Android Unity package so it can use the new file";
+		}  
+	#endif
+
+	if (exitCode != 0)
+	{
+		var message = "Build script exited with error." +
+			" Please check the FunPlus log file for more information at {0}";
+		string projectPath = Application.dataPath.Substring (0, Application.dataPath.Length - 7);
+		string logFile = null;
+
+		#if UNITY_ANDROID
+		logFile = projectPath + "/FunPlusPostBuildAndroidLog.txt";
+		#elif UNITY_IOS
+		logFile = projectPath + "/FunPluPostBuildiOSLog.txt";
+		#else
+		return null;
+		#endif
+		return string.Format (message, logFile);
+		} 
+
+		return null;
 	}
 }
