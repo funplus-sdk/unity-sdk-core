@@ -18,12 +18,15 @@ def main():
 
     exit_code = 0
 
-    with open('FunPlusPostBuildAndroidLog.txt','w') as fileLog:
+    with open('FunPlusPostBuildAndroidLog.log','w') as fileLog:
         # log function with file injected
         LogFunc = LogInput(fileLog)
 
         # get the path of the android plugin folder
-        android_plugin_path, adjust_android_path, pre_build = parse_input(LogFunc, parser)
+        android_plugin_path, funplus_android_path, pre_build = parse_input(LogFunc, parser)
+
+        # copy funsdk-default-config.json
+        copy_funsdk_default_config(LogFunc, android_plugin_path, funplus_android_path)
 
         # try to open an existing manifest file
         try:
@@ -33,7 +36,7 @@ def main():
             with open(manifest_path,'r+') as mf:
                 check_dic = check_manifest(LogFunc, mf)
                 # check if manifest has all changes needed
-                all_check = check_dic["has_adjust_receiver"] and \
+                all_check = check_dic["has_funplus_receiver"] and \
                             check_dic["has_connectivity_change_receiver"] and \
                             check_dic["has_internet_permission"] and \
                             check_dic["has_access_network_info_permission"]
@@ -60,7 +63,7 @@ def main():
                     LogFunc("Used default Android manifest file from " + \
                             "unity. Please build again the package to " +
                             "include the changes for FunPlus SDK")
-                copy_funplus_manifest(LogFunc, android_plugin_path, adjust_android_path)
+                copy_funplus_manifest(LogFunc, android_plugin_path, funplus_android_path)
                 exit_code = 1
             else:
                 LogFunc(ioe)
@@ -158,19 +161,33 @@ def has_element_attr(xml_dom, tag_name, attr_name, attr_value):
             return True
     return False
 
-def copy_funplus_manifest(Log, android_plugin_path, adjust_android_path):
-    adjust_manifest_path = os.path.join(adjust_android_path, "FunPlusAndroidManifest.xml")
+def copy_funplus_manifest(Log, android_plugin_path, funplus_android_path):
+    funplus_manifest_path = os.path.join(funplus_android_path, "FunPlusAndroidManifest.xml")
     new_manifest_path = os.path.join(android_plugin_path, "AndroidManifest.xml")
 
     if not os.path.exists(android_plugin_path):
         os.makedirs(android_plugin_path)
 
     try:
-        shutil.copyfile(adjust_manifest_path, new_manifest_path)
+        shutil.copyfile(funplus_manifest_path, new_manifest_path)
     except Exception as e:
         Log(e)
     else:
-        Log("Manifest copied from {0} to {1}", adjust_manifest_path, new_manifest_path)
+        Log("Manifest copied from {0} to {1}", funplus_manifest_path, new_manifest_path)
+
+def copy_funsdk_default_config(Log, android_plugin_path, funplus_android_path):
+    config_path = os.path.join(funplus_android_path, "funsdk-default-config.json")
+    new_config_path = os.path.join(android_plugin_path, "funsdk-default-config.json")
+
+    if not os.path.exists(android_plugin_path):
+        os.makedirs(android_plugin_path)
+
+    try:
+        shutil.copyfile(config_path, new_config_path)
+    except Exception as e:
+        Log(e)
+    else:
+        Log("Config JSON file copied from {0} to {1}", config_path, new_config_path)
 
 def LogInput(writeObject):
     def Log(message, *args):
@@ -186,7 +203,7 @@ def parse_input(Log, parser):
     funplus_android_path = os.path.join(assets_path, "FunPlusSDK/Plugins/Android/");
 
     Log("Android plugin path: {0}", android_plugin_path)
-    Log("Android funplus path: {0}", funplus_android_path)
+    Log("FunPlus Android path: {0}", funplus_android_path)
 
     return android_plugin_path, funplus_android_path, args.pre_build
 

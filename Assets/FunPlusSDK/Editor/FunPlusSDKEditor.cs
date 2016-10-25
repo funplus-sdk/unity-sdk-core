@@ -19,7 +19,10 @@ public class FunPlusSDKEditor : Editor
 		FunPlusSDKConfig sdkConfig = FunPlusSDKConfig.Instance;
 
 		EditorGUILayout.LabelField ("FunPlus SDK Configurations");
-//		EditorGUILayout.HelpBox ("1) Add the game object which will respond to SDK callbacks", MessageType.None);
+		EditorGUILayout.HelpBox ("1) Fill in the following fields.", MessageType.None);
+		EditorGUILayout.HelpBox ("2) Click the `Save Config` button.", MessageType.None);
+		EditorGUILayout.HelpBox ("3) Run from menu: FunPlusSDK/Fix AndroidManifest.", MessageType.None);
+		EditorGUILayout.HelpBox ("4) And that's it!", MessageType.None);
 
 		EditorGUILayout.Space ();
 		EditorGUILayout.Space ();
@@ -49,7 +52,7 @@ public class FunPlusSDKEditor : Editor
 		EditorGUILayout.EndHorizontal();
 	}
 
-	[MenuItem ("FunPlusSDK/Fix AndroidManifest.xml")]
+	[MenuItem ("FunPlusSDK/Fix AndroidManifest")]
 	static void FixAndroidManifest ()
 	{
 		#if UNITY_ANDROID
@@ -135,8 +138,8 @@ public class FunPlusSDKEditor : Editor
 		}
 
 		#if UNITY_ANDROID
-		pathToScript = "/Editor/FunPlusPostBuildAndroid.py";
-		arguments = "\"android\" \"" + Application.dataPath + "\"";
+		pathToScript = Path.Combine (Application.dataPath, "FunPlusSDK/Editor/FunPlusPostBuildAndroid.py");
+		arguments = "\"" + Application.dataPath + "\"";
 
 		if (preBuild)
 		{
@@ -151,8 +154,10 @@ public class FunPlusSDKEditor : Editor
 
 		Process proc = new Process ();
 		proc.EnableRaisingEvents = false; 
-		proc.StartInfo.FileName = Application.dataPath + pathToScript;
-		proc.StartInfo.Arguments = arguments;
+		proc.StartInfo.FileName = "python";
+		proc.StartInfo.Arguments = pathToScript + " " + arguments;
+		proc.StartInfo.UseShellExecute = false;
+		proc.StartInfo.RedirectStandardOutput = true;
 		proc.Start ();
 		proc.WaitForExit ();
 

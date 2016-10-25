@@ -96,19 +96,5 @@ public class FunPlusSDKConfig : ScriptableObject
 	{
 		Selection.activeObject = Instance;
 	}
-
-	[MenuItem("FunPlusSDK/Developers Page")]
-	public static void OpenAppPage()
-	{
-		string url = "https://developer.funplus.com/";
-		Application.OpenURL(url);
-	}
-
-	[MenuItem("FunPlusSDK/Report an SDK Bug")]
-	public static void ReportABug()
-	{
-		string url = "mailto:dis.red@funplus.com";
-		Application.OpenURL(url);
-	}
 	#endif
 }
