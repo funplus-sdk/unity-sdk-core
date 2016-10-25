@@ -18,14 +18,17 @@ def main():
         # path of the Xcode SDK on the system
         xcode_sdk_path = get_xcode_sdk_path(LogFunc)
 
+        args, ignored_args = parser.parse_known_args()
+        ios_project_path = args.ios_project_path
+
         # path for unity iOS Xcode project and framework on the system
-        unity_xcode_project_path, framework_path = get_paths(LogFunc, parser, xcode_sdk_path)
+        unity_xcode_project_path, framework_path = get_paths(LogFunc, ios_project_path, xcode_sdk_path)
 
         # edit the Xcode project using mod_pbxproj
         #  add the adSupport framework library
         #  add the iAd framework library
         #  change the compilation flags of the project files to support non-ARC
-        edit_unity_xcode_project(LogFunc, unity_xcode_project_path, framework_path)
+        edit_unity_xcode_project(LogFunc, ios_project_path, unity_xcode_project_path, framework_path)
 
         # change the Xcode project directly
         #  allow objective-c exceptions
@@ -38,10 +41,7 @@ def LogInput(writeObject):
         writeObject.write(messageNLine.format(*args))
     return Log
 
-def get_paths(Log, parser, xcode_sdk_path):
-    args, ignored_args = parser.parse_known_args()
-    ios_project_path = args.ios_project_path
-
+def get_paths(Log, ios_project_path, xcode_sdk_path):
     unity_xcode_project_path = ios_project_path + "/Unity-iPhone.xcodeproj/project.pbxproj"
     Log("Unity3d Xcode project path: {0}", unity_xcode_project_path)
 
@@ -50,7 +50,7 @@ def get_paths(Log, parser, xcode_sdk_path):
 
     return unity_xcode_project_path, framework_path
 
-def edit_unity_xcode_project(Log, unity_xcode_project_path, framework_path):
+def edit_unity_xcode_project(Log, ios_project_path, unity_xcode_project_path, framework_path):
     # load unity iOS pbxproj project file
     unity_XcodeProject = XcodeProject.Load(unity_xcode_project_path)
 
@@ -63,6 +63,17 @@ def edit_unity_xcode_project(Log, unity_xcode_project_path, framework_path):
     Log("added iAd framework")
 
     unity_XcodeProject.add_other_ldflags('-ObjC')
+    unity_XcodeProject.add_flags({'ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES': ['YES']})
+
+    funplus_framework_path = ios_project_path + "/Frameworks/FunPlusSDK/Plugins/iOS/"
+    Log("FunPlus framework path: " + funplus_framework_path)
+
+    unity_XcodeProject.add_embed_binaries([
+        funplus_framework_path + 'AdjustSdk.framework',
+        funplus_framework_path + 'Alamofire.framework',
+        funplus_framework_path + 'CryptoSwift.framework',
+        funplus_framework_path + 'FunPlusSDK.framework',
+    ])
 
     # save changes
     unity_XcodeProject.saveFormat3_2()

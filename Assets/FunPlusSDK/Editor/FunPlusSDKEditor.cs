@@ -146,8 +146,9 @@ public class FunPlusSDKEditor : Editor
 			arguments = "--pre-build " + arguments;
 		}
 		#elif UNITY_IOS
-		pathToScript = "/Editor/FunPlusPostBuildiOS.py";
-		arguments = "\"ios\" \"" + pathToBuiltProject + "\"";
+		string sdkConfigFilePath = Path.Combine(Application.dataPath, "FunPlusSDK/Editor/funsdk-default-config.plist");
+		pathToScript = Path.Combine(Application.dataPath, "FunPlusSDK/Editor/FunPlusPostBuildiOS.py");
+		arguments = "\"" + pathToBuiltProject + "\" \"" + sdkConfigFilePath + "\"";
 		#else
 		return -1;
 		#endif
