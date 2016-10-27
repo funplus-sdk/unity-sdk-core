@@ -6,6 +6,10 @@ namespace FunPlus
 {
 	public class FunPlusSDK
 	{
+
+		public static string VERSION = "4.0.0-alpha";
+		private static string RUNNING_IN_EDITOR = "[Editor] Calling {0}";
+
 		#if UNITY_IOS || UNITY_ANDROID
 		private static FunPlusSDK instance = null;
 		#endif
@@ -34,11 +38,13 @@ namespace FunPlus
 			nativeSdk = new FunPlusAndroid ();
 			#endif
 
+			#if !UNITY_EDITOR
 			string appId = FunPlusSDKConfig.Instance.AppId;
 			string appKey = FunPlusSDKConfig.Instance.AppKey;
 			string environment = FunPlusSDKConfig.Instance.Environment;
 
 			nativeSdk.Install(appId, appKey, environment);
+			#endif
 			#endif
 		}
 
@@ -103,6 +109,12 @@ namespace FunPlus
 											   string targetUserId,
 											   string gameServerId)
 			{
+
+				#if UNITY_EDITOR
+				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusRUM.TraceServiceMonitoring"));
+				return;
+				#endif
+
 				#if UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceRUMServiceMonitoring(
 					serviceName, httpUrl, httpStatus, requestSize, responseSize, httpLatency, requestTs,
@@ -113,6 +125,11 @@ namespace FunPlus
 
 			public void SetExtraProperty (string key, string value)
 			{
+				#if UNITY_EDITOR
+				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusRUM.SetExtraProperty"));
+				return;
+				#endif
+
 				#if UNITY_IOS || UNITY_ANDROID
 				nativeSdk.SetRUMExtraProperty(key, value);
 				#endif
@@ -135,31 +152,47 @@ namespace FunPlus
 
 			public void TraceCustom(Dictionary<string, object> dataEvent)
 			{
+				#if UNITY_EDITOR
+				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.TraceCustom"));
+				return;
+				#endif
+
 				#if UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceDataCustom(dataEvent);
 				#endif
 			}
 
-//			public void TracePayment(string amount,
-//				                     string currency,
-//				                     string productId,
-//				                     string productName,
-//				                     string productType,
-//				                     string transactionId,
-//				                     string paymentProcessor,
-//									 string itemsReceived,
-//				                     string currencyReceived)
-//			{
-//				#if UNITY_IOS || UNITY_ANDROID
-//				nativeSdk.TraceDataPayment(
-//					amount, currency, productId, productName, productType, transactionId,
-//					paymentProcessor, itemsReceived, currencyReceived
-//				);
-//				#endif
-//			}
+			public void TracePayment(double amount,
+				                     string currency,
+				                     string productId,
+				                     string productName,
+				                     string productType,
+				                     string transactionId,
+				                     string paymentProcessor,
+									 string itemsReceived,
+				                     string currencyReceived,
+								     string currencyReceivedType)
+			{
+				#if UNITY_EDITOR
+				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.TracePayment"));
+				return;
+				#endif
+
+				#if UNITY_IOS || UNITY_ANDROID
+				nativeSdk.TraceDataPayment(
+					amount, currency, productId, productName, productType, transactionId,
+					paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
+				);
+				#endif
+			}
 
 			public void SetExtraProperty (string key, string value)
 			{
+				#if UNITY_EDITOR
+				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.SetExtraProperty"));
+				return;
+				#endif
+
 				#if UNITY_IOS || UNITY_ANDROID
 				nativeSdk.SetDataExtraProperty(key, value);
 				#endif

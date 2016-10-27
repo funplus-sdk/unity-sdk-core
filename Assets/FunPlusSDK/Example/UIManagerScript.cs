@@ -2,7 +2,7 @@
 using System.Collections;
 using FunPlus;
 
-public class FunPlusSDKExampleScript : MonoBehaviour {
+public class UIManagerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

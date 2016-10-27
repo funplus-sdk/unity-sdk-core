@@ -28,16 +28,17 @@ namespace FunPlus
 		private static extern void _setRUMExtraProperty (string key, string value);
 		[DllImport ("__Internal")]
 		private static extern void _traceDataCustom (string jsonEventDict);
-//		[DllImport ("__Internal")]
-//		private static extern void _traceDataPayment (double amount,
-//			                                          string currency,
-//			                                          string productId,
-//			                                          string productName,
-//			                                          string productType,
-//			                                          string transactionId,
-//			                                          string paymentProcessor,
-//			                                          string itemsReceived,
-//			                                          string currencyReceived);
+		[DllImport ("__Internal")]
+		private static extern void _traceDataPayment (double amount,
+			                                          string currency,
+			                                          string productId,
+			                                          string productName,
+			                                          string productType,
+			                                          string transactionId,
+			                                          string paymentProcessor,
+			                                          string itemsReceived,
+			                                          string currencyReceived,
+													  string currencyReceivedType);
 		[DllImport ("__Internal")]
 		private static extern void _setDataExtraProperty (string key, string value);
 
@@ -76,21 +77,22 @@ namespace FunPlus
 			_traceDataCustom (Json.Serialize (dataEvent));
 		}
 
-//		public void TraceDataPayment(double amount,
-//			                         string currency,
-//			                         string productId,
-//			                         string productName,
-//			                         string productType,
-//			                         string transactionId,
-//			                         string paymentProcessor,
-//			                         string itemsReceived,
-//			                         string currencyReceived)
-//		{
-//			_traceDataPayment (
-//				amount, currency, productId, productName, productType, transactionId,
-//				paymentProcessor, itemsReceived, currencyReceived
-//			);
-//		}
+		public void TraceDataPayment(double amount,
+			                         string currency,
+			                         string productId,
+			                         string productName,
+			                         string productType,
+			                         string transactionId,
+			                         string paymentProcessor,
+			                         string itemsReceived,
+			                         string currencyReceived,
+									 string currencyReceivedType)
+		{
+			_traceDataPayment (
+				amount, currency, productId, productName, productType, transactionId,
+				paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
+			);
+		}
 
 		public void SetDataExtraProperty (string key, string value)
 		{

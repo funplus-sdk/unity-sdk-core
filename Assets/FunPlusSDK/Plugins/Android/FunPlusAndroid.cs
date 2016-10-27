@@ -84,11 +84,12 @@ namespace FunPlus
 			                         string transactionId,
 									 string paymentProcessor,
 								     string itemsReceived,
-			                         string currencyReceived)
+			                         string currencyReceived,
+									 string currencyReceivedType)
 		{
 			SdkApiCall ("traceDataPayment", new object[] {
 				amount, currency, productId, productName, productType, transactionId,
-				paymentProcessor, itemsReceived, currencyReceived
+				paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
 			});
 		}
 
