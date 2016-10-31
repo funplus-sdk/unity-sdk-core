@@ -6,19 +6,22 @@ namespace FunPlus
 {
 	public class FunPlusSDK
 	{
+		#region FunPlusSDK members
 
 		public static string VERSION = "4.0.0-alpha";
-		private static string RUNNING_IN_EDITOR = "[Editor] Calling {0}";
 
 		#if UNITY_IOS || UNITY_ANDROID
 		private static FunPlusSDK instance = null;
 		#endif
 
-		#if UNITY_IOS
+		#if UNITY_EDITOR
+		#elif UNITY_IOS
 		private static FunPlusiOS nativeSdk = null;
 		#elif UNITY_ANDROID
 		private static FunPlusAndroid nativeSdk = null;
 		#endif
+
+		#endregion // FunPlusSDK members
 
 		private FunPlusSDK() {}
 
@@ -27,27 +30,29 @@ namespace FunPlus
 			#if UNITY_IOS || UNITY_ANDROID
 			if (instance != null)
 			{
+				Debug.LogWarning ("[FunPlusSDK] FunPlus SDK has already been installed.");
 				return;
 			}
 
 			instance = new FunPlusSDK ();
 
-			#if UNITY_IOS
-			nativeSdk = new FunPlusiOS ();
-			#elif UNITY_ANDROID
-			nativeSdk = new FunPlusAndroid ();
-			#endif
-
-			#if !UNITY_EDITOR
 			string appId = FunPlusSDKConfig.Instance.AppId;
 			string appKey = FunPlusSDKConfig.Instance.AppKey;
 			string environment = FunPlusSDKConfig.Instance.Environment;
 
-			nativeSdk.Install(appId, appKey, environment);
+			#if UNITY_EDITOR
+			Debug.LogFormat ("[FunPlusSDK] Installing FunPlus SDK: {{appId={0}, appKey={1}, environment={2}}}.", appId, appKey, environment);
+			#elif UNITY_IOS
+			nativeSdk = new FunPlusiOS ();
+			nativeSdk.Install (appId, appKey, environment);
+			#elif UNITY_ANDROID
+			nativeSdk = new FunPlusAndroid ();
+			nativeSdk.Install (appId, appKey, environment);
 			#endif
 			#endif
 		}
 
+		#region getters
 		public static FunPlusID GetFunPlusID()
 		{
 			return FunPlusID.GetInstance ();
@@ -67,7 +72,9 @@ namespace FunPlus
 		{
 			return FunPlusAdjust.GetInstance ();
 		}
+		#endregion // getters
 
+		#region functional classes
 		public class FunPlusID
 		{
 			private static FunPlusID instance;
@@ -111,11 +118,8 @@ namespace FunPlus
 			{
 
 				#if UNITY_EDITOR
-				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusRUM.TraceServiceMonitoring"));
-				return;
-				#endif
-
-				#if UNITY_IOS || UNITY_ANDROID
+				Debug.Log ("[FunPlusSDK] FunPlusRUM.TraceServiceMonitoring().");
+				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceRUMServiceMonitoring(
 					serviceName, httpUrl, httpStatus, requestSize, responseSize, httpLatency, requestTs,
 					responseTs, requestId, targetUserId, gameServerId
@@ -126,11 +130,8 @@ namespace FunPlus
 			public void SetExtraProperty (string key, string value)
 			{
 				#if UNITY_EDITOR
-				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusRUM.SetExtraProperty"));
-				return;
-				#endif
-
-				#if UNITY_IOS || UNITY_ANDROID
+				Debug.Log ("[FunPlusSDK] FunPlusRUM.SetExtraProperty().");
+				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.SetRUMExtraProperty(key, value);
 				#endif
 			}
@@ -153,11 +154,8 @@ namespace FunPlus
 			public void TraceCustom(Dictionary<string, object> dataEvent)
 			{
 				#if UNITY_EDITOR
-				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.TraceCustom"));
-				return;
-				#endif
-
-				#if UNITY_IOS || UNITY_ANDROID
+				Debug.Log ("[FunPlusSDK] FunPlusData.TraceCustom().");
+				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceDataCustom(dataEvent);
 				#endif
 			}
@@ -174,11 +172,8 @@ namespace FunPlus
 								     string currencyReceivedType)
 			{
 				#if UNITY_EDITOR
-				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.TracePayment"));
-				return;
-				#endif
-
-				#if UNITY_IOS || UNITY_ANDROID
+				Debug.Log ("[FunPlusSDK] FunPlusData.TracePayment().");
+				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceDataPayment(
 					amount, currency, productId, productName, productType, transactionId,
 					paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
@@ -189,11 +184,8 @@ namespace FunPlus
 			public void SetExtraProperty (string key, string value)
 			{
 				#if UNITY_EDITOR
-				Debug.Log (string.Format(RUNNING_IN_EDITOR, "FunPlusData.SetExtraProperty"));
-				return;
-				#endif
-
-				#if UNITY_IOS || UNITY_ANDROID
+				Debug.Log ("[FunPlusSDK] FunPlusData.SetExtraProperty().");
+				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.SetDataExtraProperty(key, value);
 				#endif
 			}
@@ -213,5 +205,6 @@ namespace FunPlus
 				return instance;
 			}
 		}
+		#endregion // functional classes
 	}
 }
