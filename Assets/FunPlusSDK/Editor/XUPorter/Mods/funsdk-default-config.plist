@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>logger_endpoint</key>
+    <string>https://logagent.infra.funplus.net/log</string>
+    <key>logger_tag</key>
+    <string>test</string>
+    <key>logger_key</key>
+    <string>funplus</string>
+    <key>logger_level</key>
+    <string>info</string>
+    <key>rum_endpoint</key>
+    <string>https://logagent.infra.funplus.net/log</string>
+    <key>rum_tag</key>
+    <string>test</string>
+    <key>rum_key</key>
+    <string>funplus</string>
+    <key>data_endpoint</key>
+    <string>https://logagent.infra.funplus.net/log</string>
+    <key>data_tag</key>
+    <string>test</string>
+    <key>data_key</key>
+    <string>funplus</string>
+    <key>adjust_app_token</key>
+    <string>cchqrhzyr4zu</string>
+    <key>adjust_app_open_event_token</key>
+    <string>st1hu7</string>
+</dict>
+</plist>
