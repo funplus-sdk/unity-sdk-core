@@ -3,6 +3,8 @@
 ## Requirements
 
 * Unity 5.3+
+* iOS 8.0+
+* Android API level 16+
 
 ## Example Game
 
@@ -21,11 +23,9 @@ Assets/
 └── FunPlusSDK/
     ├── Editor/
     ├── Example/
-    ├── Example.meta
     └── Plugins
         ├── Android/
-        ├── iOS/
-        └── iOS.meta
+        └── iOS/
 ```
 
 ### Configure FunPlus SDK
@@ -41,15 +41,19 @@ Click the `FunPlusSDK > Edit Config` menu item from the menu bar, fill in all th
 In the `Start()` method of your game scene, put in the following initializing code:
 
 ```csharp
+using FunPlus;
+
 FunPlusSDK.Install();
 ```
 
 ### For Exporting Android Project Only
 
-* Before exporting , you need to modify the manifest file by clicking the `FunPlusSDK > Fix AndroidManifest` menu item.
-* After exporting, you need to manually add the following the play services library as project dependency.
-  * For Eclipse:
-  * For Android Studio:
+Before exporting, click the `FunPlusSDK > Android Prebuild` menu item from the menu bar.
+
+After exporting, you need to manually add the following the latest Play Services library as project dependency.
+
+* For Android Studio project, it's nothing more than just add a line in the `dependencies` block of project's `build.gradle` file: `compile 'com.google.android.gms:play-services-analytics:9.4.0'`.
+* For Eclipse project, you should add the `google-play-services_lib` folder as project dependency. `google-play-services_lib` is part of the Android SDK, which you may already have installed.
 
 ## Usage
 
