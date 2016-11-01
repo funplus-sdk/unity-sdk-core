@@ -57,8 +57,6 @@ After exporting, you need to manually add the following the latest Play Services
 
 ## Usage
 
-### The ID Module
-
 ### The RUM Module
 
 To trace a `service_monitoring` event.
@@ -95,5 +93,3 @@ public void TraceServiceMonitoring(string serviceName,
                                    string targetUserId,
                                    string gameServerId)
 ```
-
-### The Data Module

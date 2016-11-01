@@ -740,6 +740,9 @@ namespace UnityEditor.XCodeEditor
 				this.overwriteBuildSetting("LD_RUNPATH_SEARCH_PATHS", "$(inherited) @executable_path/Frameworks", "Release");
 				this.overwriteBuildSetting("LD_RUNPATH_SEARCH_PATHS", "$(inherited) @executable_path/Frameworks", "Debug");
 
+				this.overwriteBuildSetting("ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES", "Release");
+				this.overwriteBuildSetting("ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES", "Debug");
+
 				foreach( string binary in mod.embed_binaries ) {
 					string absoluteFilePath = System.IO.Path.Combine( mod.path, binary );
 					this.AddEmbedFramework(absoluteFilePath);
