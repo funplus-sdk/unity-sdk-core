@@ -88,6 +88,14 @@ namespace FunPlus
 				}
 				return instance;
 			}
+
+			public void GetFPID(string externalID, string externalIDType)
+			{
+			}
+
+			public void BindFPID(string fpid, string externalID, string externalIDType)
+			{
+			}
 		}
 
 		public class FunPlusRUM
