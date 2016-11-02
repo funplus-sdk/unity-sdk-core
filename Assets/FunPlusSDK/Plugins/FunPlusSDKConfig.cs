@@ -81,25 +81,20 @@ public class FunPlusSDKConfig : ScriptableObject
 		}
 	}
 
+	public void SaveConfig() {
+		#if !UNITY_WEBPLAYER
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty (Instance);
+		AssetDatabase.SaveAssets ();
+		#endif
+		#endif
+	}
+
 	#if UNITY_EDITOR
 	[MenuItem("FunPlusSDK/Edit Config")]
 	public static void Edit()
 	{
 		Selection.activeObject = Instance;
-	}
-
-	[MenuItem("FunPlusSDK/Developers Page")]
-	public static void OpenAppPage()
-	{
-		string url = "https://developer.funplus.com/";
-		Application.OpenURL(url);
-	}
-
-	[MenuItem("FunPlusSDK/Report an SDK Bug")]
-	public static void ReportABug()
-	{
-		string url = "mailto:dis.red@funplus.com";
-		Application.OpenURL(url);
 	}
 	#endif
 }

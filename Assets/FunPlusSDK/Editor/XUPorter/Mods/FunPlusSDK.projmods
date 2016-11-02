@@ -1,0 +1,12 @@
+{
+    "group": "FunPlusSDK",
+    "libs": [],
+    "frameworks": [],
+    "embed_binaries": ["AdjustSdk.framework", "Alamofire.framework", "CryptoSwift.framework", "FunPlusSDK.framework"],
+    "headerpaths": [],
+    "files":   ["funsdk-default-config.plist", "FunPlusUnityBridge.mm"],
+    "folders": [],
+    "excludes": ["^.*.meta$", "^.*.mdown$", "^.*.pdf$"],
+    "compiler_flags": [],
+    "linker_flags": []
+}

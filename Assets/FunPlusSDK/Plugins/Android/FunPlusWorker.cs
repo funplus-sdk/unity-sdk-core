@@ -1,4 +1,4 @@
-﻿//#if UNITY_ANDROID
+﻿#if UNITY_ANDROID
 using System;
 using System.Linq;
 using System.Collections;
@@ -6,12 +6,12 @@ using System.Threading;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace FunPlusSDK
+namespace FunPlus
 {
 	public interface IWorkerMethodDispacther
 	{
 		// Callback with api info to be called.
-		void resolveAndCallApi (string methodIdentifier, string api, object[] args);
+		void ResolveAndCallApi (string methodIdentifier, string api, object[] args);
 
 	}
 
@@ -35,16 +35,15 @@ namespace FunPlusSDK
 
 		public APICallInfo (String instanceIdentifier, String methodIdentifier, String apiName, object[] args)
 		{
-		this.instanceIdentifier = instanceIdentifier;
-		this.methodIdentifier = methodIdentifier;
-		this.apiName = apiName;
-		this.args = args;
-
+			this.instanceIdentifier = instanceIdentifier;
+			this.methodIdentifier = methodIdentifier;
+			this.apiName = apiName;
+			this.args = args;
 		}
 
 		public APICallInfo (ManualResetEvent resetEvent)
 		{
-		this.resetEvent = resetEvent;
+			this.resetEvent = resetEvent;
 		}
 	}
 
@@ -71,7 +70,7 @@ namespace FunPlusSDK
 						while (!shouldStop && callerQueue.Count > 0) {
 							APICallInfo apiInfo = callerQueue.Dequeue ();
 							try {
-								resolveSdkApiCall (apiInfo);
+								ResolveSdkApiCall (apiInfo);
 							} catch (Exception e) {
 								// Catch all exceptions since we want the thread to be running.
 								Debug.Log ("Error in : " + apiInfo.apiName + ". Exception : " + e.Message + e.StackTrace);
@@ -91,7 +90,7 @@ namespace FunPlusSDK
 			workerThread.Start ();
 		}
 
-		public static FunPlusWorker getInstance ()
+		public static FunPlusWorker GetInstance ()
 		{
 			if (fpWorker == null) {
 				fpWorker = new FunPlusWorker ();
@@ -100,7 +99,7 @@ namespace FunPlusSDK
 			return fpWorker;
 		}
 
-		public void registerClient (String identifier, IWorkerMethodDispacther instance)
+		public void RegisterClient (String identifier, IWorkerMethodDispacther instance)
 		{
 			if (listeners.ContainsKey (identifier)) {
 				listeners [identifier] = instance;
@@ -109,14 +108,14 @@ namespace FunPlusSDK
 			}
 		}
 
-		public void enqueueApiCall (string instanceIdentifier, string methodIdentifier, string api, object[] args)
+		public void EnqueueApiCall (string instanceIdentifier, string methodIdentifier, string api, object[] args)
 		{
 			callerQueue.Enqueue (new APICallInfo (instanceIdentifier, methodIdentifier, api, args));
 			// Signal worker thread to resume.
 			waitHandle.Set ();
 		}
 
-		public void synchronousWaitForApiCallQueue ()
+		public void SynchronousWaitForApiCallQueue ()
 		{
 			ManualResetEvent resetEvent = new ManualResetEvent (false);
 			callerQueue.Enqueue (new APICallInfo (resetEvent));
@@ -127,18 +126,18 @@ namespace FunPlusSDK
 			resetEvent.WaitOne ();
 		}
 
-		public void resolveSdkApiCall (APICallInfo apiInfo)
+		public void ResolveSdkApiCall (APICallInfo apiInfo)
 		{
 
 			if (apiInfo.resetEvent != null) {
 				apiInfo.resetEvent.Set ();
 				return;
 			}
-			listeners [apiInfo.instanceIdentifier].resolveAndCallApi (apiInfo.methodIdentifier, apiInfo.apiName, apiInfo.args);
+			listeners [apiInfo.instanceIdentifier].ResolveAndCallApi (apiInfo.methodIdentifier, apiInfo.apiName, apiInfo.args);
 
 		}
 
-		public void onApplicationQuit()
+		public void OnApplicationQuit()
 		{
 			shouldStop = true;
 
@@ -150,4 +149,4 @@ namespace FunPlusSDK
 		}
 	}
 }
-//#endif
+#endif
