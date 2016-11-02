@@ -38,6 +38,8 @@ Click the `FunPlusSDK > Edit Config` menu item from the menu bar, fill in all th
 
 ### Install the SDK
 
+Add the prefab located at `Assets/FunPlusSDK/FunPlusEventListener.prefab` to the first scene of your game.
+
 In the `Start()` method of your game scene, put in the following initializing code:
 
 ```csharp
