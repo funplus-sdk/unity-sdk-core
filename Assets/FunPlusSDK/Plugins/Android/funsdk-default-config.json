@@ -1,14 +1,15 @@
 {
     "logger_endpoint": "https://logagent.infra.funplus.net/log",
-    "logger_tag": "test",
-    "logger_key": "funplus",
+    "logger_tag": "devops.rum.us",
+    "logger_key": "d3b7c2e58b97b29faa637dc31af8feb6",
     "logger_level": "info",
     "rum_endpoint": "https://logagent.infra.funplus.net/log",
-    "rum_tag": "test",
-    "rum_key": "funplus",
+    "rum_tag": "devops.rum.us",
+    "rum_key": "d3b7c2e58b97b29faa637dc31af8feb6",
     "data_endpoint": "https://logagent.infra.funplus.net/log",
-    "data_tag": "test",
-    "data_key": "funplus",
-    "adjust_app_token": "cchqrhzyr4zu",
-    "adjust_app_open_event_token": "st1hu7"
+    "data_tag": "snake.global.sandbox",
+    "data_key": "de32dbb5b1198611e21af150a1a88b60",
+    "adjust_enabled": false,
+    "adjust_app_token": "",
+    "adjust_app_open_event_token": ""
 }

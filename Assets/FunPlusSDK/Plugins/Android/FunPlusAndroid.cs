@@ -71,6 +71,11 @@ namespace FunPlus
 			SdkApiCall ("setRUMExtraProperty", new object[] { key, value });
 		}
 
+		public void EraseRUMExtraProperty (string key)
+		{
+			SdkApiCall ("eraseRUMExtraProperty", new object[] { key });
+		}
+
 		public void TraceDataCustom(Dictionary<string, object> dataEvent)
 		{
 			SdkApiCall ("traceDataCustom", new object[] { Json.Serialize(dataEvent) });
@@ -96,6 +101,11 @@ namespace FunPlus
 		public void SetDataExtraProperty (string key, string value)
 		{
 			SdkApiCall ("setDataExtraProperty", new object[] { key, value });
+		}
+
+		public void EraseDataExtraProperty (string key)
+		{
+			SdkApiCall ("eraseDataExtraProperty", new object[] { key });
 		}
 	}
 }

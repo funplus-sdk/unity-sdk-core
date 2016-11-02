@@ -27,6 +27,8 @@ namespace FunPlus
 		[DllImport ("__Internal")]
 		private static extern void _setRUMExtraProperty (string key, string value);
 		[DllImport ("__Internal")]
+		private static extern void _eraseRUMExtraProperty (string key);
+		[DllImport ("__Internal")]
 		private static extern void _traceDataCustom (string jsonEventDict);
 		[DllImport ("__Internal")]
 		private static extern void _traceDataPayment (double amount,
@@ -41,6 +43,8 @@ namespace FunPlus
 													  string currencyReceivedType);
 		[DllImport ("__Internal")]
 		private static extern void _setDataExtraProperty (string key, string value);
+		[DllImport ("__Internal")]
+		private static extern void _eraseDataExtraProperty (string key);
 
 
 		public FunPlusiOS () {}
@@ -72,6 +76,11 @@ namespace FunPlus
 			_setRUMExtraProperty (key, value);
 		}
 
+		public void EraseRUMExtraProperty (string key)
+		{
+			_eraseRUMExtraProperty (key);
+		}
+
 		public void TraceDataCustom(Dictionary<string, object> dataEvent)
 		{
 			_traceDataCustom (Json.Serialize (dataEvent));
@@ -97,6 +106,11 @@ namespace FunPlus
 		public void SetDataExtraProperty (string key, string value)
 		{
 			_setDataExtraProperty (key, value);
+		}
+
+		public void EraseDataExtraProperty (string key)
+		{
+			_eraseDataExtraProperty (key);
 		}
 	}
 

@@ -135,6 +135,15 @@ namespace FunPlus
 				nativeSdk.SetRUMExtraProperty(key, value);
 				#endif
 			}
+
+			public void EraseExtraProperty(string key)
+			{
+				#if UNITY_EDITOR
+				Debug.Log ("[FunPlusSDK] FunPlusRUM.EraseExtraProperty().");
+				#elif UNITY_IOS || UNITY_ANDROID
+				nativeSdk.EraseRUMExtraProperty(key);
+				#endif
+			}
 		}
 
 		public class FunPlusData
@@ -187,6 +196,15 @@ namespace FunPlus
 				Debug.Log ("[FunPlusSDK] FunPlusData.SetExtraProperty().");
 				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.SetDataExtraProperty(key, value);
+				#endif
+			}
+
+			public void EraseExtraProperty(string key)
+			{
+				#if UNITY_EDITOR
+				Debug.Log ("[FunPlusSDK] FunPlusData.EraseExtraProperty().");
+				#elif UNITY_IOS || UNITY_ANDROID
+				nativeSdk.EraseDataExtraProperty(key);
 				#endif
 			}
 		}
