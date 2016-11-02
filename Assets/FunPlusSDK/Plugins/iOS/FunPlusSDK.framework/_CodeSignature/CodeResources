@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/FunPlusSDK-Swift.h</key>
 		<data>
-		uQNX6bEojTSOwM9LHcfKJZhG+0Y=
+		ipbAdXHh4fncJ4SkqKSScF5yy+w=
 		</data>
 		<key>Headers/FunPlusSDK.h</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		APR6d/qOxAEoEGWQQeFH0LG7/Sk=
+		slN/3SqLmOHlrSEyLbQlbumRZq0=
 		</data>
 		<key>Modules/FunPlusSDK.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Modules/FunPlusSDK.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		WSv3EDSqeN+0aAU4TPyhEyISQrY=
+		TOxMbW53byWZpqFNOE/gUlHk6zI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -35,11 +35,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uQNX6bEojTSOwM9LHcfKJZhG+0Y=
+			ipbAdXHh4fncJ4SkqKSScF5yy+w=
 			</data>
 			<key>hash2</key>
 			<data>
-			Q+fkqkDXJkElqgvdFeg7To/yUa6S633niGc98R0tIg0=
+			7qaRLg5SqpJmRDBYX3Ov5IXK1ZFJkp06fD4o4E50ias=
 			</data>
 		</dict>
 		<key>Headers/FunPlusSDK.h</key>
@@ -68,11 +68,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WSv3EDSqeN+0aAU4TPyhEyISQrY=
+			TOxMbW53byWZpqFNOE/gUlHk6zI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Y4aYnYV6jS/i+0FKmx5QMaaDZbUyKUwgy7w6cEH0wdk=
+			9XJgrSTqq1Ftq/y3BzLvcYfLIbEohtLa4J5g/99xtzA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

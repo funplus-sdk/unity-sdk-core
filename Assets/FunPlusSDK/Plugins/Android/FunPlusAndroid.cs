@@ -48,6 +48,16 @@ namespace FunPlus
 			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
 		}
 
+		public void GetFPID(string externalID, string externalIDType)
+		{
+			SdkApiCall("getFPID", new object[] { externalID, externalIDType });
+		}
+
+		public void BindFPID(string fpid, string externalID, string externalIDType)
+		{
+			SdkApiCall("bindFPID", new object[] { fpid, externalID, externalIDType });
+		}
+
 		public void TraceRUMServiceMonitoring(string serviceName,
 			                                  string httpUrl,
 			                                  string httpStatus,

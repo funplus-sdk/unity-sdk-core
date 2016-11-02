@@ -124,11 +124,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC10FunPlusSDK9OCExposer")
 @interface OCExposer : NSObject
 + (void)installWithAppId:(NSString * _Nonnull)appId appKey:(NSString * _Nonnull)appKey environment:(NSString * _Nonnull)environment;
++ (void)getFPIDWithExternalID:(NSString * _Nonnull)externalID externalIDTypeString:(NSString * _Nonnull)externalIDTypeString onSuccess:(void (^ _Nonnull)(NSString * _Nonnull))onSuccess onFailure:(void (^ _Nonnull)(NSString * _Nonnull))onFailure;
++ (void)bindFPIDWithFpid:(NSString * _Nonnull)fpid externalID:(NSString * _Nonnull)externalID externalIDTypeString:(NSString * _Nonnull)externalIDTypeString onSuccess:(void (^ _Nonnull)(NSString * _Nonnull))onSuccess onFailure:(void (^ _Nonnull)(NSString * _Nonnull))onFailure;
 + (void)traceRUMServiceMonitoringWithServiceName:(NSString * _Nonnull)serviceName httpUrl:(NSString * _Nonnull)httpUrl httpStatus:(NSString * _Nonnull)httpStatus requestSize:(NSInteger)requestSize responseSize:(NSInteger)responseSize httpLatency:(int64_t)httpLatency requestTs:(int64_t)requestTs responseTs:(int64_t)responseTs requestId:(NSString * _Nonnull)requestId targetUserId:(NSString * _Nonnull)targetUserId gameServerId:(NSString * _Nonnull)gameServerId;
 + (void)setRUMExtraPropertyWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value;
++ (void)eraseRUMExtraPropertyWithKey:(NSString * _Nonnull)key;
 + (void)traceDataCustomWithEventString:(NSString * _Nonnull)eventString;
 + (void)traceDataPaymentWithAmount:(double)amount currency:(NSString * _Nonnull)currency productId:(NSString * _Nonnull)productId productName:(NSString * _Nullable)productName productType:(NSString * _Nullable)productType transactionId:(NSString * _Nonnull)transactionId paymentProcessor:(NSString * _Nonnull)paymentProcessor itemsReceived:(NSString * _Nonnull)itemsReceived currencyReceived:(NSString * _Nonnull)currencyReceived currencyReceivedType:(NSString * _Nonnull)currencyReceivedType;
 + (void)setDataExtraPropertyWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value;
++ (void)eraseDataExtraPropertyWithKey:(NSString * _Nonnull)key;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

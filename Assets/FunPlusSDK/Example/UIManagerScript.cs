@@ -2,10 +2,12 @@
 using System.Collections;
 using FunPlus;
 
-public class UIManagerScript : MonoBehaviour {
+public class UIManagerScript : MonoBehaviour
+{
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		FunPlusSDK.Install ();
 
 		string serviceName = "httpbin";
@@ -26,10 +28,23 @@ public class UIManagerScript : MonoBehaviour {
 		);
 
 		FunPlusSDK.GetFunPlusRUM ().SetExtraProperty ("rum_extra_key", "rum_extra_value");
+
+		FunPlusSDK.GetFunPlusID ().GetFPID ("testuser", "inapp_user", onGetFPIDSuccess, onGetFPIDFailure);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
+	}
+
+	void onGetFPIDSuccess(string fpid)
+	{
+		Debug.Log ("Get FPID success: " + fpid);
+	}
+
+	void onGetFPIDFailure(string error)
+	{
+		Debug.Log ("Get FPID failed: " + error);
 	}
 }

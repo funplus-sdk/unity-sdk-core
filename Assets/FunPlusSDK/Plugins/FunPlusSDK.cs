@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace FunPlus
 {
@@ -89,12 +91,28 @@ namespace FunPlus
 				return instance;
 			}
 
-			public void GetFPID(string externalID, string externalIDType)
+			public void GetFPID(string externalID, string externalIDType, Action<string> onSuccess, Action<string> onFailure)
 			{
+				FunPlusEventListener.getFPIDSuccessHandler = onSuccess;
+				FunPlusEventListener.getFPIDFailureHandler = onFailure;
+
+				#if UNITY_EDITOR
+				Debug.Log ("[FunPlusSDK] FunPlusID.GetFPID().");
+				#elif UNITY_IOS || UNITY_ANDROID
+				nativeSdk.GetFPID(externalID, externalIDType);
+				#endif
 			}
 
-			public void BindFPID(string fpid, string externalID, string externalIDType)
+			public void BindFPID(string fpid, string externalID, string externalIDType, Action<string> onSuccess, Action<string> onFailure)
 			{
+				FunPlusEventListener.bindFPIDSuccessHandler = onSuccess;
+				FunPlusEventListener.bindFPIDFailureHandler = onFailure;
+
+				#if UNITY_EDITOR
+				Debug.Log ("[FunPlusSDK] FunPlusID.BindFPID().");
+				#elif UNITY_IOS || UNITY_ANDROID
+				nativeSdk.BindFPID(fpid, externalID, externalIDType);
+				#endif
 			}
 		}
 

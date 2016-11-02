@@ -13,6 +13,10 @@ namespace FunPlus
 		[DllImport ("__Internal")]
 		private static extern void _install (string appId, string appKey, string environment);
 		[DllImport ("__Internal")]
+		private static extern void _getFPID (string externalID, string externalIDType);
+		[DllImport ("__Internal")]
+		private static extern void _bindFPID (string fpid, string externalID, string externalIDType);
+		[DllImport ("__Internal")]
 		private static extern void _traceRUMServiceMonitoring (string serviceName,
 															   string httpUrl,
 															   string httpStatus,
@@ -51,6 +55,16 @@ namespace FunPlus
 
 		public void Install (string appId, string appKey, string environment) {
 			_install(appId, appKey, environment);
+		}
+
+		public void GetFPID(string externalID, string externalIDType)
+		{
+			_getFPID (externalID, externalIDType);
+		}
+
+		public void BindFPID(string fpid, string externalID, string externalIDType)
+		{
+			_bindFPID (fpid, externalID, externalIDType);
 		}
 
 		public void TraceRUMServiceMonitoring(string serviceName,

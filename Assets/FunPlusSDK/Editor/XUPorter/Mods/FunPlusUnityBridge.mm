@@ -11,6 +11,8 @@
 
 extern "C"
 {
+    extern void UnitySendMessage(const char *, const char *, const char *);
+    
     void _install(const char *appId, const char *appKey, const char *environment) {
         NSString *sAppId = [NSString stringWithUTF8String:appId];
         NSString *sAppKey = [NSString stringWithUTF8String:appKey];
@@ -19,6 +21,44 @@ extern "C"
         [OCExposer installWithAppId:sAppId
                              appKey:sAppKey
                         environment:sEnv];
+    }
+    
+    void _getFPID(const char *externalID, const char *externalIDType) {
+        NSString *sExternalID = [NSString stringWithUTF8String:externalID];
+        NSString *sExternalIDType = [NSString stringWithUTF8String:externalIDType];
+        
+        [OCExposer getFPIDWithExternalID:sExternalID
+                    externalIDTypeString:sExternalIDType
+                               onSuccess:^(NSString * _Nonnull fpid) {
+                                   UnitySendMessage("FunPlusEventListener",
+                                                    "onGetFPIDSuccess",
+                                                    [fpid cStringUsingEncoding:NSUTF8StringEncoding]);
+                               }
+                               onFailure:^(NSString * _Nonnull error) {
+                                   UnitySendMessage("FunPlusEventListener",
+                                                    "onGetFPIDFailure",
+                                                    [error cStringUsingEncoding:NSUTF8StringEncoding]);
+                               }];
+    }
+    
+    void _bindFPID(const char *fpid, const char *externalID, const char *externalIDType) {
+        NSString *sFpid = [NSString stringWithUTF8String:fpid];
+        NSString *sExternalID = [NSString stringWithUTF8String:externalID];
+        NSString *sExternalIDType = [NSString stringWithUTF8String:externalIDType];
+        
+        [OCExposer bindFPIDWithFpid:sFpid
+                         externalID:sExternalID
+               externalIDTypeString:sExternalIDType
+                          onSuccess:^(NSString * _Nonnull fpid) {
+                              UnitySendMessage("FunPlusEventListener",
+                                               "onBindFPIDSuccess",
+                                               [fpid cStringUsingEncoding:NSUTF8StringEncoding]);
+                          }
+                          onFailure:^(NSString * _Nonnull error) {
+                              UnitySendMessage("FunPlusEventListener",
+                                               "onBindFPIDFailure",
+                                               [error cStringUsingEncoding:NSUTF8StringEncoding]);
+                          }];
     }
     
     void _traceRUMServiceMonitoring(const char *serviceName,
@@ -58,6 +98,12 @@ extern "C"
         NSString *sValue = [NSString stringWithUTF8String:value];
         
         [OCExposer setRUMExtraPropertyWithKey:sKey value:sValue];
+    }
+    
+    void _eraseRUMExtraProperty(const char *key) {
+        NSString *sKey = [NSString stringWithUTF8String:key];
+        
+        [OCExposer eraseRUMExtraPropertyWithKey:sKey];
     }
     
     void _traceDataCustom(const char *eventString) {
@@ -104,5 +150,11 @@ extern "C"
                                 itemsReceived:sItemsReceived
                              currencyReceived:sCurrencyReceived
                          currencyReceivedType:sCurrencyReceivedType];
+    }
+    
+    void _eraseDataExtraProperty(const char *key) {
+        NSString *sKey = [NSString stringWithUTF8String:key];
+        
+        [OCExposer eraseDataExtraPropertyWithKey:sKey];
     }
 }
