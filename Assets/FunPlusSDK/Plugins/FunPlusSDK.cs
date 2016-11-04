@@ -69,11 +69,6 @@ namespace FunPlus
 		{
 			return FunPlusData.GetInstance ();
 		}
-
-		public static FunPlusAdjust GetFunPlusAdjust()
-		{
-			return FunPlusAdjust.GetInstance ();
-		}
 		#endregion // getters
 
 		#region functional classes
@@ -232,21 +227,6 @@ namespace FunPlus
 				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.EraseDataExtraProperty(key);
 				#endif
-			}
-		}
-
-		public class FunPlusAdjust
-		{
-			private static FunPlusAdjust instance;
-
-			private FunPlusAdjust() {}
-
-			public static FunPlusAdjust GetInstance()
-			{
-				if (instance == null) {
-					instance = new FunPlusAdjust ();
-				}
-				return instance;
 			}
 		}
 		#endregion // functional classes
