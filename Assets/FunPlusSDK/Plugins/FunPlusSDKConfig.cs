@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Collections;
-using HSMiniJSON;
+using FunPlus;
 
 #if UNITY_EDITOR
 using UnityEditor;

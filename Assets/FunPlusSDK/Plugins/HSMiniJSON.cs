@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace HSMiniJSON {
+namespace FunPlus {
     // Example usage:
     //
     //  using UnityEngine;
