@@ -10,7 +10,7 @@ namespace FunPlus
 	{
 		#region FunPlusSDK members
 
-		public static string VERSION = "4.0.0-alpha.2";
+		public static string VERSION = "4.0.0-alpha.3";
 
 		#if UNITY_IOS || UNITY_ANDROID
 		private static FunPlusSDK instance = null;
