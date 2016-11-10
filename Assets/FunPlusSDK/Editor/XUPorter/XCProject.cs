@@ -807,10 +807,10 @@ namespace UnityEditor.XCodeEditor
 				}
 			}
 
-			Debug.Log ("Adding plist items...");
-			string plistPath = this.projectRootPath + "/Info.plist";
-			XCPlist plist = new XCPlist (plistPath);
-			plist.Process(mod.plist);
+//			Debug.Log ("Adding plist items...");
+//			string plistPath = this.projectRootPath + "/Info.plist";
+//			XCPlist plist = new XCPlist (plistPath);
+//			plist.Process(mod.plist);
 
 			this.Consolidate();
 		}

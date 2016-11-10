@@ -21,13 +21,9 @@ public static class XCodePostProcess
 		// Create a new project object from build target
 		XCProject project = new XCProject( pathToBuiltProject );
 
-		// Find and run through all projmods files to patch the project.
-		// Please pay attention that ALL projmods files in your project folder will be excuted!
-		string[] files = Directory.GetFiles( Application.dataPath, "*.projmods", SearchOption.AllDirectories );
-		foreach( string file in files ) {
-			UnityEngine.Debug.Log("ProjMod File: "+file);
-			project.ApplyMod( file );
-		}
+		string file = Path.Combine(Application.dataPath, "FunPlusSDK/Editor/XUPorter/Mods/FunPlusSDK.projmods");
+		UnityEngine.Debug.Log("ProjMod File: "+file);
+		project.ApplyMod( file );
 
 		//TODO implement generic settings as a module option
 		project.overwriteBuildSetting("CODE_SIGN_IDENTITY[sdk=iphoneos*]", "iPhone Distribution", "Release");
