@@ -10,7 +10,7 @@ namespace FunPlus
 	{
 		#region FunPlusSDK members
 
-		public static string VERSION = "4.0.0-alpha.2";
+		public static string VERSION = "4.0.0-alpha.3";
 
 		#if UNITY_IOS || UNITY_ANDROID
 		private static FunPlusSDK instance = null;
@@ -68,11 +68,6 @@ namespace FunPlus
 		public static FunPlusData GetFunPlusData()
 		{
 			return FunPlusData.GetInstance ();
-		}
-
-		public static FunPlusAdjust GetFunPlusAdjust()
-		{
-			return FunPlusAdjust.GetInstance ();
 		}
 		#endregion // getters
 
@@ -232,21 +227,6 @@ namespace FunPlus
 				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.EraseDataExtraProperty(key);
 				#endif
-			}
-		}
-
-		public class FunPlusAdjust
-		{
-			private static FunPlusAdjust instance;
-
-			private FunPlusAdjust() {}
-
-			public static FunPlusAdjust GetInstance()
-			{
-				if (instance == null) {
-					instance = new FunPlusAdjust ();
-				}
-				return instance;
 			}
 		}
 		#endregion // functional classes

@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double FunPlusSDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char FunPlusSDKVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <FunPlusSDK/PublicHeader.h>
-
-
