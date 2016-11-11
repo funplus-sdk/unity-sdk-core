@@ -36,6 +36,8 @@ Click the `FunPlusSDK > Edit Config` menu item from the menu bar, fill in all th
 
 * Game ID
 * Game Key
+* RUM Tag
+* RUM Key
 * Environment
 
 ### Install the SDK
@@ -63,49 +65,7 @@ After exporting, you need to manually add the following the latest Play Services
 
 ### The ID Module
 
-The objective of the ID module is to provide a unified ID for each unique user and consequently make it possible to identify users across all FunPlus services (marketing, payment, etc). Note that the ID module can not be treated as an account module, therefore you cannot use this module to complete common account functionalities such as registration and logging in.
-
-**Get an FPID based on a given user ID**
-
-```java
-FunPlusSDK.GetFunPlusID().Get(externalID, externalIDType);
-```
-
-The `get` method is defined as below:
-
-```java
-class FunPlusID {...
-  
-public enum Error {
-    UnknownError, SigError, ParseError, NetworkError;
-}
-
-public enum ExternalIDType {
-    GUID, Email, FacebookID, InAppUserID;
-}
-                 
-public interface FunPlusIDHandler {
-	void onSuccess(String fpid);
-    void onFailure(Error error);
-}
-                 
-/**
-    params externalID:		The in-game user ID.
-    params externalIDType:	Type of the in-game user ID.
-    params completion:		The completion handler.
- */
-public void get(String externalID,
-                ExternalIDType externalIDType,
-                FunPlusIDHandler completion);
-```
-
-**Bind a new user ID to an existing FPID**
-
-```java
-import com.funplus.sdk.FunPlusID;
-
-FunPlusSDK.getFunPlusID().bind(fpid, externalID, externalIDType, completionHandler);
-```
+To be filled in.
 
 ### The RUM Module
 
@@ -155,8 +115,55 @@ FunPlusSDK.GetFunPlusRUM().SetExtraProperty(key, value);
 FunPlusSDK.GetFunPlusRUM().EraseExtraProperty(key);
 ```
 
+### The Data Module
+
+The Data module traces client events and uploads them to FunPlus BI System.
+
+The SDK traces following KPI events automatically:
+
+* session_start
+* session_end
+* new_user
+* payment
+
+**Trace custom events**
+
+```csharp
+FunPlusSDK.GetFunPlusData().TraceCustom(event)
+```
+
+Besides those four KPI events, you might want to trace some custom events. Call the `TraceCustom()` method to achieve this task.
+
+The event you're passing in to this method is a dictionary. Below is an example:
+
+```json
+{
+    "app_id": "{YourAppId}",
+    "data_version": "2.0",
+    "event": "level_up",
+    "user_id": "{UserId}",
+    "session_id": "{SessionId}",
+    "ts": "{Timestamp(millisecond)}",
+    "properties": {
+        "app_version": "{YourAppId}",
+        "os": "{android or ios}",
+        "os_version": "{OsVersion}",
+        "device": "{DeviceName}",
+        "lang": "{LanguageCode, for example: 'en'}",
+        "install_ts": "{Timestamp(millisecond)}",
+        // Other custom properties.
+    }
+```
+
+**Set extra properties to Data events**
+
+```csharp
+FunPlusSDK.GetFunPlusData().SetExtraProperty(key, value);
+FunPlusSDK.GetFunPlusData().EraseExtraProperty(key);
+```
+
 ## FAQ
 
 **Q: Why the hell is the parameter list of  `TraceServiceMonitoring()` so long?**
 
-A: Please consult RUM team on it :)
+A: Please consult RUM team on that :)
