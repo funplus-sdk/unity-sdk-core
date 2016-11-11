@@ -77,7 +77,7 @@ The RUM module monitors user's actions in real-time and uploads collected data t
 FunPlusSDK.GetFunPlusRUM().TraceServiceMonitoring(...);
 ```
 
-The `TraceServiceMonitoring` method is defined as below:
+The `TraceServiceMonitoring()` method is defined as below:
 
 ```csharp
 /**
