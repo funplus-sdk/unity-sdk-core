@@ -130,6 +130,7 @@ SWIFT_CLASS("_TtC10FunPlusSDK9OCExposer")
 @interface OCExposer : NSObject
 + (void)installWithAppId:(NSString * _Nonnull)appId appKey:(NSString * _Nonnull)appKey environment:(NSString * _Nonnull)environment;
 + (void)installWithAppId:(NSString * _Nonnull)appId appKey:(NSString * _Nonnull)appKey rumTag:(NSString * _Nonnull)rumTag rumKey:(NSString * _Nonnull)rumKey environment:(NSString * _Nonnull)environment;
++ (NSString * _Nonnull)getSessionId;
 + (void)getFPIDWithExternalID:(NSString * _Nonnull)externalID externalIDTypeString:(NSString * _Nonnull)externalIDTypeString onSuccess:(void (^ _Nonnull)(NSString * _Nonnull))onSuccess onFailure:(void (^ _Nonnull)(NSString * _Nonnull))onFailure;
 + (void)bindFPIDWithFpid:(NSString * _Nonnull)fpid externalID:(NSString * _Nonnull)externalID externalIDTypeString:(NSString * _Nonnull)externalIDTypeString onSuccess:(void (^ _Nonnull)(NSString * _Nonnull))onSuccess onFailure:(void (^ _Nonnull)(NSString * _Nonnull))onFailure;
 + (void)traceRUMServiceMonitoringWithServiceName:(NSString * _Nonnull)serviceName httpUrl:(NSString * _Nonnull)httpUrl httpStatus:(NSString * _Nonnull)httpStatus requestSize:(NSInteger)requestSize responseSize:(NSInteger)responseSize httpLatency:(int64_t)httpLatency requestTs:(int64_t)requestTs responseTs:(int64_t)responseTs requestId:(NSString * _Nonnull)requestId targetUserId:(NSString * _Nonnull)targetUserId gameServerId:(NSString * _Nonnull)gameServerId;
