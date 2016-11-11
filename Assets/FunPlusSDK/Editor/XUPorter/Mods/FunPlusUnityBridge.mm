@@ -26,6 +26,11 @@ extern "C"
                              rumKey:sRumKey
                         environment:sEnv];
     }
+
+    const char * _getSessionId() {
+        NSString *sFpid = [OCExposer getSessionId];
+        return strdup([sFpid UTF8String]);
+    }
     
     void _getFPID(const char *externalID, const char *externalIDType) {
         NSString *sExternalID = [NSString stringWithUTF8String:externalID];

@@ -4,7 +4,7 @@
     "frameworks": [],
     "embed_binaries": ["FunPlusSDK.framework"],
     "headerpaths": [],
-    "files":   ["funsdk-default-config.plist", "FunPlusUnityBridge.mm"],
+    "files":   ["FunPlusUnityBridge.mm"],
     "folders": [],
     "excludes": ["^.*.meta$", "^.*.mdown$", "^.*.pdf$"],
     "compiler_flags": [],
