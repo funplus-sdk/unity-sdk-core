@@ -40,16 +40,18 @@ namespace FunPlus
 
 			string appId = FunPlusSDKConfig.Instance.AppId;
 			string appKey = FunPlusSDKConfig.Instance.AppKey;
+			string rumTag = FunPlusSDKConfig.Instance.RumTag;
+			string rumKey = FunPlusSDKConfig.Instance.RumKey;
 			string environment = FunPlusSDKConfig.Instance.Environment;
 
 			#if UNITY_EDITOR
-			Debug.LogFormat ("[FunPlusSDK] Installing FunPlus SDK: {{appId={0}, appKey={1}, environment={2}}}.", appId, appKey, environment);
+			Debug.LogFormat ("[FunPlusSDK] Installing FunPlus SDK: {{appId={0}, appKey={1}, rumTag={2}, rumKey={3}, environment={4}}}.", appId, appKey, rumTag, rumKey, environment);
 			#elif UNITY_IOS
 			nativeSdk = new FunPlusiOS ();
-			nativeSdk.Install (appId, appKey, environment);
+			nativeSdk.Install (appId, appKey, rumTag, rumKey, environment);
 			#elif UNITY_ANDROID
 			nativeSdk = new FunPlusAndroid ();
-			nativeSdk.Install (appId, appKey, environment);
+			nativeSdk.Install (appId, appKey, rumTag, rumKey, environment);
 			#endif
 			#endif
 		}

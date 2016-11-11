@@ -12,14 +12,18 @@
 extern "C"
 {
     extern void UnitySendMessage(const char *, const char *, const char *);
-    
-    void _install(const char *appId, const char *appKey, const char *environment) {
+
+    void _install(const char *appId, const char *appKey, const char *rumTag, const char *rumKey, const char *environment) {
         NSString *sAppId = [NSString stringWithUTF8String:appId];
         NSString *sAppKey = [NSString stringWithUTF8String:appKey];
+        NSString *sRumTag = [NSString stringWithUTF8String:rumTag];
+        NSString *sRumKey = [NSString stringWithUTF8String:rumKey];
         NSString *sEnv = [NSString stringWithUTF8String:environment];
         
         [OCExposer installWithAppId:sAppId
                              appKey:sAppKey
+                             rumTag:sRumTag
+                             rumKey:sRumKey
                         environment:sEnv];
     }
     

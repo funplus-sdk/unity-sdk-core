@@ -10,7 +10,11 @@ namespace FunPlus
 	public class FunPlusiOS
 	{
 		[DllImport ("__Internal")]
-		private static extern void _install (string appId, string appKey, string environment);
+		private static extern void _install (string appId, 
+											 string appKey,
+											 string rumTag,
+											 string rumKey,
+											 string environment);
 		[DllImport ("__Internal")]
 		private static extern void _getFPID (string externalID, string externalIDType);
 		[DllImport ("__Internal")]
@@ -52,8 +56,8 @@ namespace FunPlus
 
 		public FunPlusiOS () {}
 
-		public void Install (string appId, string appKey, string environment) {
-			_install(appId, appKey, environment);
+		public void Install (string appId, string appKey, string rumTag, string rumKey, string environment) {
+			_install(appId, appKey, rumTag, rumKey, environment);
 		}
 
 		public void GetFPID(string externalID, string externalIDType)

@@ -21,6 +21,10 @@ public class FunPlusSDKConfig : ScriptableObject
 	[SerializeField]
 	private string appKey;
 	[SerializeField]
+	private string rumTag;
+	[SerializeField]
+	private string rumKey;
+	[SerializeField]
 	private string environment;
 
 	public static FunPlusSDKConfig Instance
@@ -65,6 +69,30 @@ public class FunPlusSDKConfig : ScriptableObject
 			if (appKey != value)
 			{
 				appKey = value;
+			}
+		}
+	}
+
+	public string RumTag
+	{
+		get { return rumTag; }
+		set
+		{
+			if (rumTag != value)
+			{
+				rumTag = value;
+			}
+		}
+	}
+
+	public string RumKey
+	{
+		get { return rumKey; }
+		set
+		{
+			if (rumKey != value)
+			{
+				rumKey = value;
 			}
 		}
 	}

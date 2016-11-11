@@ -43,7 +43,7 @@ namespace FunPlus
 			FunPlusWorker.GetInstance ().EnqueueApiCall ("sdk", methodIdentifier, api, args);
 		}
 
-		public void Install(string appId, string appKey, string environment)
+		public void Install(string appId, string appKey, string rumTag, string rumKey, string environment)
 		{
 			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
 		}

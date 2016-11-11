@@ -11,8 +11,10 @@ using UnityEditor.Callbacks;
 [CustomEditor(typeof(FunPlusSDKConfig))]
 public class FunPlusSDKEditor : Editor
 {
-	GUIContent appIdLabel = new GUIContent("App ID [?]:", "FunPlus app ID can be found at:");
-	GUIContent appKeyLabel = new GUIContent("App Key [?]:", "FunPlus app key\n For example, 'xxx'");
+	GUIContent appIdLabel = new GUIContent("App ID [?]:", "FunPlus app ID\n For example, 'game.global.prod'");
+	GUIContent appKeyLabel = new GUIContent("App Key [?]:", "FunPlus app key\n A hash string with 32 characters");
+	GUIContent rumTagLabel = new GUIContent("RUM Tag [?]:", "RUM tag");
+	GUIContent rumKeyLabel = new GUIContent("RUM Key [?]:", "RUM key\n A hash string with 32 characters");
 	GUIContent environmentLabel = new GUIContent("SDK Environment [?]:", "SDK running environment\n Can take two possible values: sandbox or production");
 
 	public override void OnInspectorGUI () {
@@ -35,6 +37,16 @@ public class FunPlusSDKEditor : Editor
 		EditorGUILayout.BeginHorizontal ();
 		EditorGUILayout.LabelField (appKeyLabel);
 		sdkConfig.AppKey = EditorGUILayout.TextField (sdkConfig.AppKey);
+		EditorGUILayout.EndHorizontal ();
+
+		EditorGUILayout.BeginHorizontal ();
+		EditorGUILayout.LabelField (rumTagLabel);
+		sdkConfig.RumTag = EditorGUILayout.TextField (sdkConfig.RumTag);
+		EditorGUILayout.EndHorizontal ();
+
+		EditorGUILayout.BeginHorizontal ();
+		EditorGUILayout.LabelField (rumKeyLabel);
+		sdkConfig.RumKey = EditorGUILayout.TextField (sdkConfig.RumKey);
 		EditorGUILayout.EndHorizontal ();
 
 		EditorGUILayout.BeginHorizontal ();
