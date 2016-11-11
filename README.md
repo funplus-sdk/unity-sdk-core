@@ -65,7 +65,65 @@ After exporting, you need to manually add the following the latest Play Services
 
 ### The ID Module
 
-To be filled in.
+The objective of the ID module is to provide a unified ID for each unique user and consequently make it possible to identify users across all FunPlus services (marketing, payment, etc). Note that the ID module can not be treated as an account module, therefore you cannot use this module to complete common account functionalities such as registration and logging in.
+
+Before using its APIs, make sure that you've added `Assets/FunPlusSDK/FunPlusEventListener.prefab` to your game scene.
+
+**Get an FPID based on a given user ID**
+
+```csharp
+FunPlusSDK.getFunPlusID().GetFPID("{userid}", ExternalIDType.InAppUserID, onGetFPIDSuccess, onGetFPIDFailure);
+```
+
+Here is the definition of `ExternalIDType` and the `Get()` method:
+
+```csharp
+namespace
+{
+	public enum ExternalIDType
+	{
+		InAppUserID,
+		Email,
+		FacebookID
+	}
+  
+    public class FunPlusID
+    {
+        public void GetFPID(string externalID,
+                            ExternalIDType externalIDType,
+                            Action<string> onSuccess,
+                            Action<string> onFailure);
+    }
+}
+```
+
+**Bind a new user ID to an existing FPID**
+
+```csharp
+FunPlusSDK.getFunPlusID().BindFPID("{fpid}", "{userid}", ExternalIDType.InAppUserID, onBindFPIDSuccess, onBindFPIDFailure);
+```
+
+Here is the definition of the `Bind()` method:
+
+```csharp
+namespace
+{
+    public class FunPlusID
+    {
+        public void BindFPID(string fpid,
+                             string externalID,
+                             ExternalIDType externalIDType,
+                             Action<string> onSuccess,
+                             Action<string> onFailure);
+    }
+}
+```
+
+**Get current session ID**
+
+```csharp
+string sessionId = FunPlusSDK.GetFunPlusID().GetSessionID();
+```
 
 ### The RUM Module
 
