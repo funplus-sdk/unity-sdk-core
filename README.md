@@ -78,7 +78,7 @@ FunPlusSDK.getFunPlusID().GetFPID("{userid}", ExternalIDType.InAppUserID, onGetF
 Here is the definition of `ExternalIDType` and the `Get()` method:
 
 ```csharp
-namespace
+namespace FunPlus
 {
 	public enum ExternalIDType
 	{
