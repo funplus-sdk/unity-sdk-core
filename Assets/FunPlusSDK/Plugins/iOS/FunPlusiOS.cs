@@ -16,6 +16,8 @@ namespace FunPlus
 											 string rumKey,
 											 string environment);
 		[DllImport ("__Internal")]
+		private static extern string _getSessionId ();
+		[DllImport ("__Internal")]
 		private static extern void _getFPID (string externalID, string externalIDType);
 		[DllImport ("__Internal")]
 		private static extern void _bindFPID (string fpid, string externalID, string externalIDType);
@@ -58,6 +60,10 @@ namespace FunPlus
 
 		public void Install (string appId, string appKey, string rumTag, string rumKey, string environment) {
 			_install(appId, appKey, rumTag, rumKey, environment);
+		}
+
+		public string GetSessionId() {
+			return _getSessionId ();
 		}
 
 		public void GetFPID(string externalID, string externalIDType)

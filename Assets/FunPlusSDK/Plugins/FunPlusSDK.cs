@@ -88,7 +88,16 @@ namespace FunPlus
 				return instance;
 			}
 
-			public void GetFPID(string externalID, string externalIDType, Action<string> onSuccess, Action<string> onFailure)
+			public string GetSessionId() {
+				#if UNITY_EDITOR
+				Debug.Log ("[FunPlusSDK] FunPlusID.GetFPID().");
+				return "mock_funplus_session_id";
+				#elif UNITY_IOS || UNITY_ANDROID
+				return nativeSdk.GetSessionId();
+				#endif
+			}
+
+			public void GetFPID(string externalID, ExternalIDType externalIDType, Action<string> onSuccess, Action<string> onFailure)
 			{
 				FunPlusEventListener.getFPIDSuccessHandler = onSuccess;
 				FunPlusEventListener.getFPIDFailureHandler = onFailure;
@@ -96,11 +105,11 @@ namespace FunPlus
 				#if UNITY_EDITOR
 				Debug.Log ("[FunPlusSDK] FunPlusID.GetFPID().");
 				#elif UNITY_IOS || UNITY_ANDROID
-				nativeSdk.GetFPID(externalID, externalIDType);
+				nativeSdk.GetFPID(externalID, ExternalIDTypeExtension.ToTypeString (externalIDType));
 				#endif
 			}
 
-			public void BindFPID(string fpid, string externalID, string externalIDType, Action<string> onSuccess, Action<string> onFailure)
+			public void BindFPID(string fpid, string externalID, ExternalIDType externalIDType, Action<string> onSuccess, Action<string> onFailure)
 			{
 				FunPlusEventListener.bindFPIDSuccessHandler = onSuccess;
 				FunPlusEventListener.bindFPIDFailureHandler = onFailure;
@@ -108,7 +117,7 @@ namespace FunPlus
 				#if UNITY_EDITOR
 				Debug.Log ("[FunPlusSDK] FunPlusID.BindFPID().");
 				#elif UNITY_IOS || UNITY_ANDROID
-				nativeSdk.BindFPID(fpid, externalID, externalIDType);
+				nativeSdk.BindFPID(fpid, externalID, ExternalIDTypeExtension.ToTypeString (externalIDType));
 				#endif
 			}
 		}

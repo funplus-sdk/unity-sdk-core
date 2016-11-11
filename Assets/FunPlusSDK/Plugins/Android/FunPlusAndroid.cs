@@ -48,6 +48,11 @@ namespace FunPlus
 			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
 		}
 
+		public string GetSessionId()
+		{
+			return "todo";
+		}
+
 		public void GetFPID(string externalID, string externalIDType)
 		{
 			SdkApiCall("getFPID", new object[] { externalID, externalIDType });

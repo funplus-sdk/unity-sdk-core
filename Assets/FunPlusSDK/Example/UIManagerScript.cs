@@ -29,7 +29,11 @@ public class UIManagerScript : MonoBehaviour
 
 		FunPlusSDK.GetFunPlusRUM ().SetExtraProperty ("rum_extra_key", "rum_extra_value");
 
-		FunPlusSDK.GetFunPlusID ().GetFPID ("testuser", "inapp_user", onGetFPIDSuccess, onGetFPIDFailure);
+		FunPlusSDK.GetFunPlusID ().GetFPID ("testuser", ExternalIDType.InAppUserID, onGetFPIDSuccess, onGetFPIDFailure);
+
+		string sessionId = FunPlusSDK.GetFunPlusID ().GetSessionId ();
+		Debug.Log ("xxxxxxxxxx");
+		Debug.Log ("Session ID: " + sessionId);
 	}
 	
 	// Update is called once per frame
