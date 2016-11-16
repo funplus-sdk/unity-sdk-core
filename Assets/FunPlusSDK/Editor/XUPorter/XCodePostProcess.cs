@@ -18,6 +18,15 @@ public static class XCodePostProcess
 			return;
 		}
 
+		string sentinel = Path.Combine (pathToBuiltProject, ".funplus");
+
+		if (File.Exists (sentinel))
+		{
+			// Build in append mode.
+			Debug.Log ("Build in append mode, will not modify the project");
+			return;
+		}
+
 		// Create a new project object from build target
 		XCProject project = new XCProject( pathToBuiltProject );
 
@@ -26,11 +35,13 @@ public static class XCodePostProcess
 		project.ApplyMod( file );
 
 		//TODO implement generic settings as a module option
-		project.overwriteBuildSetting("CODE_SIGN_IDENTITY[sdk=iphoneos*]", "iPhone Distribution", "Release");
+		//project.overwriteBuildSetting("CODE_SIGN_IDENTITY[sdk=iphoneos*]", "iPhone Distribution", "Release");
 		
 		// Finally save the xcode project
 		project.Save();
 
+		// Create the sentinel file.
+		File.WriteAllText (sentinel, "sentinel");
 	}
 #endif
 
