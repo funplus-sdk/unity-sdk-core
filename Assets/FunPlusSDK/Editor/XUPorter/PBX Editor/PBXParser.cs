@@ -48,7 +48,7 @@ namespace UnityEditor.XCodeEditor
 		{
 			
 			if (!this.objects.ContainsKey(guid)) {
-				Debug.LogWarning(this + " ResolveName could not resolve " + guid);
+				// Debug.LogWarning(this + " ResolveName could not resolve " + guid);
 				return string.Empty; //"UNRESOLVED GUID:" + guid;
 			}
 			
