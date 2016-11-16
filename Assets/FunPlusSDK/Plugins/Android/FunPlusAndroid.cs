@@ -3,7 +3,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using HSMiniJSON;
 using System.Linq;
 using System.Collections;
 using System.Threading;
@@ -45,7 +44,7 @@ namespace FunPlus
 
 		public void Install(string appId, string appKey, string rumTag, string rumKey, string environment)
 		{
-			SdkApiCall ("install", new object[] { application, appId, appKey, environment });
+			SdkApiCall ("install", new object[] { application, appId, appKey, rumTag, rumKey, environment });
 		}
 
 		public string GetSessionId()

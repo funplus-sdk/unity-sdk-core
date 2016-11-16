@@ -78,9 +78,6 @@ public class FunPlusSDKEditor : Editor
 		string androidPluginsPath = Path.Combine (Application.dataPath, "Plugins/Android");
 		string appManifestPath = Path.Combine (Application.dataPath, "Plugins/Android/AndroidManifest.xml");
 		string sdkManifestPath = Path.Combine (Application.dataPath, "FunPlusSDK/Plugins/Android/FunPlusAndroidManifest.xml");
-		string appAssetsPath = Path.Combine (Application.dataPath, "Plugins/Android/assets");
-		string appConfigPath = Path.Combine (Application.dataPath, "Plugins/Android/assets/funsdk-default-config.json");
-		string sdkConfigPath = Path.Combine (Application.dataPath, "FunPlusSDK/Plugins/Android/funsdk-default-config.json");
 
 		// Check if user has already created AndroidManifest.xml file in its location.
 		// If not, use already predefined FunPlusAndroidManifest.xml as default one.
@@ -96,21 +93,6 @@ public class FunPlusSDKEditor : Editor
 			UnityEngine.Debug.Log("[FunPlusSDK] Creating default app's AndroidManifest.xml from FunPlusAndroidManifest.xml file.");
 		} else {
 			UnityEngine.Debug.Log("[FunPlusSDK] User defined AndroidManifest.xml file located in Plugins/Android folder.");
-		}
-			
-		// Copy the funsdk-default-config.json to project's assets folder.
-		if (!Directory.Exists (appAssetsPath)) {
-			Directory.CreateDirectory (appAssetsPath);
-
-			UnityEngine.Debug.Log ("[FunPlusSDK] Createing app's assets folder because it does not exist");
-		}
-
-		if (File.Exists (appConfigPath)) {
-			UnityEngine.Debug.Log ("[FunPlusSDK] Not copy the default config file to app's assets folder because app already has one");
-		} else {
-			File.Copy (sdkConfigPath, appConfigPath);
-
-			UnityEngine.Debug.Log ("[FunPlusSDK] Copying the default config file to app's assets folder");
 		}
 
 		// If FunPlus manifest is used, we have already set up everything in it so that 
@@ -217,15 +199,6 @@ public class FunPlusSDKEditor : Editor
 		// 
 		//     <application
 		//         <!-- ... -->>
-		//         <receiver
-		//             android:name="com.adjust.sdk.AdjustReferrerReceiver"
-		//             android:exported="true" >
-		//             
-		//             <intent-filter>
-		//                 <action android:name="com.android.vending.INSTALL_REFERRER" />
-		//             </intent-filter>
-		//         </receiver>
-		//
 		//		   <receiver android:name="com.funplus.sdk.ConnectionChangeReceiver" android:label="NetworkConnection">
 		//			   <intent-filter>
 		//			       <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
@@ -261,64 +234,6 @@ public class FunPlusSDKEditor : Editor
 			return;
 		}
 
-		// Okay, there's an application node in the AndroidManifest.xml file.
-		// Let's now check if user has already defined a receiver which is listening to INSTALL_REFERRER intent.
-		// If that is already defined, don't force the adjust broadcast receiver to the manifest file.
-		// If not, add the adjust broadcast receiver to the manifest file.
-		bool isThereAnyInstallReferrerBroadcastReiver = false;
-
-		foreach (XmlNode node in applicationNode.ChildNodes) {
-			if (node.Name == "receiver") {
-				foreach (XmlNode subnode in node.ChildNodes) {
-					if (subnode.Name == "intent-filter") {
-						foreach (XmlNode subsubnode in subnode.ChildNodes) {
-							if (subsubnode.Name == "action") {
-								foreach(XmlAttribute attribute in subsubnode.Attributes) {
-									if (attribute.Value.Contains("INSTALL_REFERRER")) {
-										isThereAnyInstallReferrerBroadcastReiver = true;
-										break;
-									}
-								}
-							}
-
-							if (isThereAnyInstallReferrerBroadcastReiver) {
-								break;
-							}
-						}
-					}
-
-					if (isThereAnyInstallReferrerBroadcastReiver) {
-						break;
-					}
-				}
-			}
-
-			if (isThereAnyInstallReferrerBroadcastReiver) {
-				break;
-			}
-		}
-
-		// Let's see what we have found so far.
-		if (isThereAnyInstallReferrerBroadcastReiver) {
-			UnityEngine.Debug.Log("[FunPlusSDK] It seems like you are using your own install referrer broadcast receiver.");
-			UnityEngine.Debug.Log("[FunPlusSDK] Please, add the calls to the adjust install referrer broadcast receiver like described in here: https://github.com/adjust/android_sdk/blob/master/doc/english/referrer.md");
-		} else {
-			// Generate adjust broadcast receiver entry and add it to the application node.
-			XmlElement receiverElement = manifest.CreateElement("receiver");
-			receiverElement.SetAttribute("android__name", "com.adjust.sdk.AdjustReferrerReceiver");
-			receiverElement.SetAttribute("android__exported", "true");
-
-			XmlElement intentFilterElement = manifest.CreateElement("intent-filter");
-			XmlElement actionElement = manifest.CreateElement("action");
-			actionElement.SetAttribute("android__name", "com.android.vending.INSTALL_REFERRER");
-
-			intentFilterElement.AppendChild(actionElement);
-			receiverElement.AppendChild(intentFilterElement);
-			applicationNode.AppendChild(receiverElement);
-
-			UnityEngine.Debug.Log("[FunPlusSDK] Adjust install referrer broadcast receiver successfully added to your app's AndroidManifest.xml file.");
-		}
-
 		// Let's now move forward and check if user has already defined a receiver which is listening
 		// to CONNECTIVITY_CHANGE intent. If that is already defined, don't force the FunPlus broadcast
 		// receiver to the manifest file. If not, add the FunPlus broadcast receiver to the manifest file.
@@ -332,7 +247,7 @@ public class FunPlusSDKEditor : Editor
 							if (subsubnode.Name == "action") {
 								foreach(XmlAttribute attribute in subsubnode.Attributes) {
 									if (attribute.Value.Contains("CONNECTIVITY_CHANGE")) {
-										isThereAnyInstallReferrerBroadcastReiver = true;
+										isThereAnyConnectivityChangeBroadcastReiver = true;
 										break;
 									}
 								}
