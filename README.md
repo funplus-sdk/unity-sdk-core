@@ -213,6 +213,12 @@ The event you're passing in to this method is a dictionary. Below is an example:
     }
 ```
 
+It might not be easy for Unity developers to retrieve system and hardware information. In such a case, you can pick an alternative method:
+
+```csharp
+FunPlusSDK.GetFunPlusData().TraceCustomEventWithNameAndProperties(string eventName, Dictionary<string, object> properties);
+```
+
 **Set extra properties to Data events**
 
 ```csharp
