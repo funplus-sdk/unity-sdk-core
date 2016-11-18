@@ -97,7 +97,7 @@ namespace FunPlus
 
 		public void TraceCustomEventWithNameAndProperties(string eventName, Dictionary<string, object> properties)
 		{
-			SdkApiCall ("traceCustomEventWithNameAndProperties", new object[] { eventName, Json.Serialize(dataEvent) });
+			SdkApiCall ("traceCustomEventWithNameAndProperties", new object[] { eventName, Json.Serialize(properties) });
 		}
 
 		public void TraceDataPayment(double amount,
