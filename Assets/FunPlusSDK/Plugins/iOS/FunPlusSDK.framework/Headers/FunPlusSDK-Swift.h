@@ -137,6 +137,7 @@ SWIFT_CLASS("_TtC10FunPlusSDK9OCExposer")
 + (void)setRUMExtraPropertyWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value;
 + (void)eraseRUMExtraPropertyWithKey:(NSString * _Nonnull)key;
 + (void)traceDataCustomWithEventString:(NSString * _Nonnull)eventString;
++ (void)traceDataCustomWithEventName:(NSString * _Nonnull)eventName propertiesString:(NSString * _Nonnull)propertiesString;
 + (void)traceDataPaymentWithAmount:(double)amount currency:(NSString * _Nonnull)currency productId:(NSString * _Nonnull)productId productName:(NSString * _Nullable)productName productType:(NSString * _Nullable)productType transactionId:(NSString * _Nonnull)transactionId paymentProcessor:(NSString * _Nonnull)paymentProcessor itemsReceived:(NSString * _Nonnull)itemsReceived currencyReceived:(NSString * _Nonnull)currencyReceived currencyReceivedType:(NSString * _Nonnull)currencyReceivedType;
 + (void)setDataExtraPropertyWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value;
 + (void)eraseDataExtraPropertyWithKey:(NSString * _Nonnull)key;
