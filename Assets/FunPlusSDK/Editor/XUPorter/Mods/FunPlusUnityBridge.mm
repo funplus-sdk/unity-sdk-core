@@ -120,6 +120,13 @@ extern "C"
         
         [OCExposer traceDataCustomWithEventString:sEventString];
     }
+
+    void _traceDataCustomEventWithNameAndProperties(const char *eventName, const char *propertiesString) {
+        NSString *sEventName = [NSString stringWithUTF8String:eventName];
+        NSString *sPropertiesString = [NSString stringWithUTF8String:propertiesString];
+        [OCExposer traceDataCustomWithEventName:sEventName
+                               propertiesString:sPropertiesString];
+    }
     
     void _setDataExtraProperty(const char *key, const char *value) {
         NSString *sKey = [NSString stringWithUTF8String:key];

@@ -40,6 +40,9 @@ namespace FunPlus
 		[DllImport ("__Internal")]
 		private static extern void _traceDataCustom (string jsonEventDict);
 		[DllImport ("__Internal")]
+		private static extern void _traceDataCustomEventWithNameAndProperties (string eventName,
+		                                                               		   string propertiesString);
+		[DllImport ("__Internal")]
 		private static extern void _traceDataPayment (double amount,
 			                                          string currency,
 			                                          string productId,
@@ -107,6 +110,11 @@ namespace FunPlus
 		public void TraceDataCustom(Dictionary<string, object> dataEvent)
 		{
 			_traceDataCustom (Json.Serialize (dataEvent));
+		}
+
+		public void TraceCustomEventWithNameAndProperties(string eventName, Dictionary<string, object> properties)
+		{
+			_traceDataCustomEventWithNameAndProperties (eventName, Json.Serialize (properties));
 		}
 
 		public void TraceDataPayment(double amount,

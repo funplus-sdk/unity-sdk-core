@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.0.1-alpha.2
+
+* `TraceCustomEventWithNameAndProperties()`
+
 ### v4.0.1-alpha.1
 
 * upgrade native Android SDK to v4.0.1-alpha.0

@@ -201,6 +201,15 @@ namespace FunPlus
 				#endif
 			}
 
+			public void TraceCustomEventWithNameAndProperties(string eventName, Dictionary<string, object> properties)
+			{
+			#if UNITY_EDITOR
+			Debug.Log ("[FunPlusSDK] FunPlusData.TraceCustomEventWithNameAndProperties().");
+			#elif UNITY_IOS || UNITY_ANDROID
+			nativeSdk.TraceCustomEventWithNameAndProperties(eventName, properties);
+			#endif
+			}
+
 			public void TracePayment(double amount,
 				                     string currency,
 				                     string productId,

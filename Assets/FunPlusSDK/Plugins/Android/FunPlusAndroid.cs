@@ -95,6 +95,11 @@ namespace FunPlus
 			SdkApiCall ("traceDataCustom", new object[] { Json.Serialize(dataEvent) });
 		}
 
+		public void TraceCustomEventWithNameAndProperties(string eventName, Dictionary<string, object> properties)
+		{
+			SdkApiCall ("traceCustomEventWithNameAndProperties", new object[] { eventName, Json.Serialize(dataEvent) });
+		}
+
 		public void TraceDataPayment(double amount,
 									 string currency,
 									 string productId,
