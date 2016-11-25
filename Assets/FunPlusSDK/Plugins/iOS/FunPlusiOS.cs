@@ -51,8 +51,7 @@ namespace FunPlus
 			                                          string transactionId,
 			                                          string paymentProcessor,
 			                                          string itemsReceived,
-			                                          string currencyReceived,
-													  string currencyReceivedType);
+			                                          string currencyReceived);
 		[DllImport ("__Internal")]
 		private static extern void _setDataExtraProperty (string key, string value);
 		[DllImport ("__Internal")]
@@ -125,12 +124,11 @@ namespace FunPlus
 			                         string transactionId,
 			                         string paymentProcessor,
 			                         string itemsReceived,
-			                         string currencyReceived,
-									 string currencyReceivedType)
+			                         string currencyReceived)
 		{
 			_traceDataPayment (
 				amount, currency, productId, productName, productType, transactionId,
-				paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
+				paymentProcessor, itemsReceived, currencyReceived
 			);
 		}
 

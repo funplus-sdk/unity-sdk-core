@@ -1,5 +1,10 @@
 # Changelog
 
+### v4.0.1
+
+* Upgrade native Android SDK to v4.0.1
+* Upgrade native iOS SDK to v4.0.3
+
 ### v4.0.1-alpha.2
 
 * `TraceCustomEventWithNameAndProperties()`

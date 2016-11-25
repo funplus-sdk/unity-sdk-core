@@ -10,7 +10,7 @@ namespace FunPlus
 	{
 		#region FunPlusSDK members
 
-		public static string VERSION = "4.0.1-alpha.2";
+		public static string VERSION = "4.0.1";
 
 		#if UNITY_IOS || UNITY_ANDROID
 		private static FunPlusSDK instance = null;
@@ -218,15 +218,14 @@ namespace FunPlus
 				                     string transactionId,
 				                     string paymentProcessor,
 									 string itemsReceived,
-				                     string currencyReceived,
-								     string currencyReceivedType)
+				                     string currencyReceived)
 			{
 				#if UNITY_EDITOR
 				Debug.Log ("[FunPlusSDK] FunPlusData.TracePayment().");
 				#elif UNITY_IOS || UNITY_ANDROID
 				nativeSdk.TraceDataPayment(
 					amount, currency, productId, productName, productType, transactionId,
-					paymentProcessor, itemsReceived, currencyReceived, currencyReceivedType
+					paymentProcessor, itemsReceived, currencyReceived
 				);
 				#endif
 			}

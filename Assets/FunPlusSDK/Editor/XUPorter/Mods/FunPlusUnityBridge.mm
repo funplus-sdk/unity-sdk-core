@@ -143,8 +143,7 @@ extern "C"
                             const char *transactionId,
                             const char *paymentProcessor,
                             const char *itemsReceived,
-                            const char *currencyReceived,
-                            const char *currencyReceivedType)
+                            const char *currencyReceived)
     {
         NSString *sCurrency = [NSString stringWithUTF8String:currency];
         NSString *sProductId = [NSString stringWithUTF8String:productId];
@@ -154,7 +153,6 @@ extern "C"
         NSString *sPaymentProcessor = [NSString stringWithUTF8String:paymentProcessor];
         NSString *sItemsReceived = [NSString stringWithUTF8String:itemsReceived];
         NSString *sCurrencyReceived = [NSString stringWithUTF8String:currencyReceived];
-        NSString *sCurrencyReceivedType = [NSString stringWithUTF8String:currencyReceivedType];
         
         [OCExposer traceDataPaymentWithAmount:amount
                                      currency:sCurrency
@@ -164,8 +162,7 @@ extern "C"
                                 transactionId:sTransactionId
                              paymentProcessor:sPaymentProcessor
                                 itemsReceived:sItemsReceived
-                             currencyReceived:sCurrencyReceived
-                         currencyReceivedType:sCurrencyReceivedType];
+                             currencyReceived:sCurrencyReceived];
     }
     
     void _eraseDataExtraProperty(const char *key) {
