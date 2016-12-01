@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.0.2-alpha.0
+
+* Upgrade native iOS SDK to v4.0.4-alpha.1
+
 ### v4.0.1
 
 * Upgrade native Android SDK to v4.0.1
