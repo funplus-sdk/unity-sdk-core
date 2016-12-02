@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using FunPlus;
 
 public class UIManagerScript : MonoBehaviour
@@ -9,6 +10,25 @@ public class UIManagerScript : MonoBehaviour
 	void Start ()
 	{
 		FunPlusSDK.Install ();
+
+		TestRUMTraceServiceMonitoring ();
+
+		TestRUMSetExtraProperty ();
+
+		TestTraceCustomEventWithNameAndProperties ();
+
+		TestGetFPID ();
+	}
+	
+	// Update is called once per frame
+	void Update ()
+	{
+		
+	}
+
+	void TestRUMTraceServiceMonitoring()
+	{
+		Debug.Log ("xxxxx Test RUM.TraceServiceMonitoring xxxxx");
 
 		string serviceName = "httpbin";
 		string httpUrl = "https://www.httpbin.org";
@@ -27,27 +47,56 @@ public class UIManagerScript : MonoBehaviour
 			requestTs, responseTs, requestId, targetUserId, gameServerId
 		);
 
+		Debug.Log ("xxxxx End Test xxxxx");
+	}
+
+	void TestRUMSetExtraProperty()
+	{
+		Debug.Log ("xxxxx Test RUM.SetExtraProperty xxxxx");
+
 		FunPlusSDK.GetFunPlusRUM ().SetExtraProperty ("rum_extra_key", "rum_extra_value");
 
-		FunPlusSDK.GetFunPlusID ().GetFPID ("testuser", ExternalIDType.InAppUserID, onGetFPIDSuccess, onGetFPIDFailure);
+		Debug.Log ("xxxxx End Test xxxxx");
+	}
+
+	void TestTraceCustomEventWithNameAndProperties()
+	{
+		Debug.Log ("xxxxx Test Data.TraceCustomEventWithNameAndProperties xxxxx");
+
+		string eventName = "level_up";
+
+		Dictionary<string, object> info = new Dictionary<string, object> ();
+		info.Add ("old", 17);
+		info.Add ("new", 23);
+		info.Add ("uid", "testuser");
+
+		Dictionary<string, object> properties = new Dictionary<string, object> ();
+		properties.Add ("info", info);
+		properties.Add ("bonus", "17 gold");
+
+		FunPlusSDK.GetFunPlusData ().TraceCustomEventWithNameAndProperties (eventName, properties);
+
+		Debug.Log ("xxxxx End Test xxxxx");
+	}
+
+	void TestGetFPID()
+	{
+		Debug.Log ("xxxxx Test ID.GetFPID xxxxx");
+
+		FunPlusSDK.GetFunPlusID ().GetFPID ("testuser", ExternalIDType.InAppUserID, OnGetFPIDSuccess, OnGetFPIDFailure);
 
 		string sessionId = FunPlusSDK.GetFunPlusID ().GetSessionId ();
-		Debug.Log ("xxxxxxxxxx");
 		Debug.Log ("Session ID: " + sessionId);
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
+
+		Debug.Log ("xxxxx End Test xxxxx");
 	}
 
-	void onGetFPIDSuccess(string fpid)
+	void OnGetFPIDSuccess(string fpid)
 	{
 		Debug.Log ("Get FPID success: " + fpid);
 	}
 
-	void onGetFPIDFailure(string error)
+	void OnGetFPIDFailure(string error)
 	{
 		Debug.Log ("Get FPID failed: " + error);
 	}
